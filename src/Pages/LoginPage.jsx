@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
 import AlertModal from "./AlertModal";
+import signup from "../../Sign_up.png";
 
 function LoginPage() {
   const [contact, setContact] = useState("");
@@ -33,7 +34,7 @@ function LoginPage() {
     <div className="signup-container">
       <div className="signup-left">
         <img
-          src="/Sign_up.png"
+            src={signup}
           alt="Intel Core i7 10th Gen"
           className="signup-image"
         />

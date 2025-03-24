@@ -14,7 +14,7 @@ const AlertModal = ({ isOpen, onClose, message }) => {
         backgroundColor: "rgba(0,0,0,0.5)",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
       }}
     >
       <div
@@ -25,14 +25,19 @@ const AlertModal = ({ isOpen, onClose, message }) => {
           maxWidth: "350px",
           width: "90%",
           textAlign: "center",
-          position: "relative"
+          position: "relative",
         }}
       >
-  
         <img
           src="https://img.freepik.com/premium-vector/warning-icon-red-vector-graphics_292645-287.jpg"
           alt="Alert"
-          style={{ width: "100px", marginBottom: "-20px" }}
+          style={{
+            width: "100px",
+            marginBottom: "-20px",
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
         />
         <h2 style={{ color: "#EA3C3C", marginBottom: "10px" }}>ERROR!</h2>
         <p style={{ fontSize: "14px", margin: "0" }}>{message}</p>
@@ -45,7 +50,7 @@ const AlertModal = ({ isOpen, onClose, message }) => {
             color: "#fff",
             border: "none",
             borderRadius: "4px",
-            cursor: "pointer"
+            cursor: "pointer",
           }}
         >
           Close
