@@ -1,0 +1,277 @@
+/* SignupPage.css */
+.signup-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Left and right sections */
+.signup-left,
+.signup-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Responsive image sizing */
+.signup-image {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 10px;
+}
+
+/* Right section styling */
+.signup-right {
+  flex-direction: column;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.signup-right h2 {
+  margin-bottom: 8px;
+  font-size: 2rem;
+}
+
+.signup-right p {
+  margin-bottom: 24px;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Form container */
+.signup-form {
+  width: 90%;
+}
+
+.signup-form .form-group {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.signup-form label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button styling */
+.btn {
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #EA3C3C;
+  color: #fff;
+  width: 100%;
+  transition: background-color 0.3s;
+  height: 50px;
+}
+
+.btn-primary:hover {
+  background-color: #c92e2e;
+}
+
+.btn-google {
+  background-color: #fff;
+  color: #757575;
+  border: 1px solid #ccc;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-google:hover {
+  background-color: #f0f0f0;
+}
+
+
+/* Separator text */
+.separator {
+  text-align: center;
+  margin: 24px 0;
+  font-weight: bold;
+  color: #999;
+}
+
+/* Google button icon style */
+.google-icon {
+  width: 28px;
+  height: auto;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Bottom link for existing account */
+.login-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.login-link a {
+  color: #EA3C3C;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .signup-container {
+    flex-direction: column;
+  }
+  .signup-left,
+  .signup-right {
+    flex: none;
+    width: 100%;
+  }
+  .signup-image {
+    max-width: 100%;
+  }
+}
+
+
+
+/*
+.signup-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.signup-left,
+.signup-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-image {
+  width: 600px;
+  border-radius: 10px;
+  height: auto;
+}
+
+.signup-right {
+  flex-direction: column;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.signup-right h2 {
+  margin-bottom: 8px;
+}
+
+.signup-right p {
+  margin-bottom: 24px;
+  color: #555;
+}
+
+.signup-form {
+  width: 90%;
+}
+
+.signup-form .form-group {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.signup-form label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: inline-block;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background-color: #EA3C3C;
+  color: #fff;
+  border: none;
+}
+
+.google-icon {
+  background-color: #fff;
+  color: #757575;
+  border: 1px solid #ccc;
+}
+
+.separator {
+  text-align: center;
+  margin: 24px 0;
+  font-weight: bold;
+  color: #999;
+}
+
+.login-link {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.login-link a {
+  color: #EA3C3C;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.google-icon {
+  width: 28px;      
+  height: auto;
+  margin-right: 8px;
+  vertical-align: middle; 
+}
+
