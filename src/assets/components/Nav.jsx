@@ -15,7 +15,7 @@ const Nav = () => {
         <div className={`navx ${menuOpen ? "show" : ""}`}>
           <ul className={`nav-links ${menuOpen ? "show" : ""}`}>
             <li>
-              <a href="#Hero">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <a href="#Rent">RentPcs</a>
@@ -26,13 +26,14 @@ const Nav = () => {
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="#cpu">Monitors</a>
+                  <a href="/computerlisting">Computers</a>
                 </li>
                 <li>
-                  <a href="#Accessoires">Accessories</a>
+                  <Link to="/monitorlisting">Monitors</Link>
                 </li>
+
                 <li>
-                  <a href="#monitors">Desktop</a>
+                  <a href="/accessorylisting">Accessories</a>
                 </li>
               </ul>
             </li>
@@ -56,7 +57,9 @@ const Nav = () => {
             Login
           </button>
         </Link>
-        <i className="bx bx-user"></i>
+        <Link to="/login">
+          <i className="bx bx-user"></i>
+        </Link>
       </nav>
 
       <input type="text" placeholder="Search" className="input" />

@@ -9,21 +9,21 @@ const OurService = () => {
         <div className='items'>
             <div className='item'>
               
-              <i class='bx bx-package'></i>
+              <i className='bx bx-package'></i>
               <h3>Fast delivery</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
 
             </div>
             <div className='item'>
               
-              <i class='bx bx-laptop'></i>
+              <i className='bx bx-laptop'></i>
               <h3>Buy Or Rent the Pc You want </h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
 
             </div>
             <div className='item'>
               
-              <i class='bx bx-headphone'></i>
+              <i className='bx bx-headphone'></i>
               <h3>Free headphones</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
 

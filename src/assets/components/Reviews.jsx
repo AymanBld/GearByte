@@ -50,9 +50,9 @@ const Reviews = () => {
      
       </div>
 
-        <div class="chevrons">
-          <i class='bx bx-chevron-left-circle' id="prev"></i>
-          <i class='bx bx-chevron-right-circle' id="next"></i>  
+        <div className="chevrons">
+          <i className='bx bx-chevron-left-circle' id="prev"></i>
+          <i className='bx bx-chevron-right-circle' id="next"></i>  
         </div>
     </section>
   )
