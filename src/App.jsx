@@ -10,10 +10,13 @@ import Hero from "./assets/components/Hero";
 import OurService from "./assets/components/OurService";
 import Reviews from "./assets/components/Reviews";
 import Footer from "./assets/components/Footer";
-import Copyright from "./assets/components/copyright";
+import Copyright from "./assets/components/Copyright";
 import Contactus from "./assets/components/Contactus";
 import LoginPage from "./Pages/LoginPage";
 import SignupPage from "./Pages/SignupPage";
+import MonitorListing from "./Pages/MonitorListing";
+import ComputerListing from "./Pages/ComputerListing";
+import AccessoryListing from "./Pages/AccessoryListing";
 
 const Layout = () => {
   const location = useLocation();
@@ -38,6 +41,9 @@ const Layout = () => {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/monitorlisting" element={<MonitorListing />} />
+        <Route path="/computerlisting" element={<ComputerListing />} />
+        <Route path="/accessorylisting" element={<AccessoryListing />} />
       </Routes>
     </>
   );
