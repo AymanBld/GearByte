@@ -10,34 +10,50 @@ function LoginPage() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const allowedDomains = ["@gmail.com", "@yahoo.com", "@outlook.com", "@hotmail.com"];
+  const allowedDomains = [
+    "@gmail.com",
+    "@yahoo.com",
+    "@outlook.com",
+    "@hotmail.com",
+  ];
   const algerianPhoneRegex = /^(05|06|07)\d{8}$/;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmedContact = contact.trim().toLowerCase();
-    const isEmailValid = allowedDomains.some((domain) => trimmedContact.endsWith(domain));
+    const isEmailValid = allowedDomains.some((domain) =>
+      trimmedContact.endsWith(domain)
+    );
     const isPhoneValid = algerianPhoneRegex.test(trimmedContact);
 
     if (!isEmailValid && !isPhoneValid) {
       setAlertMessage(
-        `Enter a valid email (ending with: ${allowedDomains.join(", ")}) or a valid Algerian phone number (10 digits starting with 05, 06, or 07).`
+        `Enter a valid email (ending with: ${allowedDomains.join(
+          ", "
+        )}) or a valid Algerian phone number (10 digits starting with 05, 06, or 07).`
       );
       setAlertOpen(true);
       return;
     }
 
-    console.log("Logging in with contact:", trimmedContact, "and password:", password);
+    console.log(
+      "Logging in with contact:",
+      trimmedContact,
+      "and password:",
+      password
+    );
   };
 
   return (
     <div className="signup-container">
       <div className="signup-left">
-        <img
+        <Link to="/">
+          <img
             src={signup}
-          alt="Intel Core i7 10th Gen"
-          className="signup-image"
-        />
+            alt="Intel Core i7 10th Gen"
+            className="signup-image"
+          />
+        </Link>
       </div>
 
       <div className="signup-right">
@@ -92,7 +108,6 @@ function LoginPage() {
 }
 
 export default LoginPage;
-
 
 /*
 import React, { useState } from "react";

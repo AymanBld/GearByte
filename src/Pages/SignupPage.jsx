@@ -41,11 +41,13 @@ function SignupPage() {
   return (
     <div className="signup-container">
       <div className="signup-left">
-        <img
-          src={signup}
-          alt="Intel Core i7 10th Gen"
-          className="signup-image"
-        />
+        <Link to="/">
+          <img
+            src={signup}
+            alt="Intel Core i7 10th Gen"
+            className="signup-image"
+          />
+        </Link>
       </div>
 
       <div className="signup-right">
