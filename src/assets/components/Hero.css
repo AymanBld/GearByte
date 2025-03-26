@@ -37,9 +37,7 @@
        
     z-index: 0;
     width: 40%; 
-    /* margin-top:-70px; */
-    
-    
+  
     
 }
 .hero h1{
@@ -66,13 +64,20 @@
    gap: 40px;
    padding: 0 0;
 }
-#rent{
+
+
+#rent {
     background-color: #fff;
+    color: #000;
     
 }
-#rent a{
-    color: #000;
+
+#rent:hover {
+    background-color: var(--button-hover);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+
 
 .img{
     height:   330px;

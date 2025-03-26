@@ -122,6 +122,13 @@ button:hover {
     position: relative;
 }
 
+.dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
+
+
 .dropdown-menu {
     display: none;
     position: absolute;

@@ -1,0 +1,68 @@
+.rent-service-intro {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.rent-service-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.rent-service-text {
+  flex: 1;
+}
+
+.rent-service-text h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ea3c3c;
+  margin-bottom: 20px;
+}
+
+.rent-service-text p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.rent-service-btn {
+  background-color: #ea3c3c;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.rent-service-btn:hover {
+  background-color: #c5303d;
+}
+
+.rent-service-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.rent-service-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .rent-service-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .rent-service-text,
+  .rent-service-image {
+    flex: none;
+    width: 100%;
+  }
+}
