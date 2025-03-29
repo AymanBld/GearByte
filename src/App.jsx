@@ -5,7 +5,8 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { CartProvider } from "./Context/CartContext"; 
+import { CartProvider } from "./Context/CartContext";
+
 import Nav from "./assets/components/Nav";
 import Hero from "./assets/components/Hero";
 import OurService from "./assets/components/OurService";
@@ -21,7 +22,9 @@ import AccessoryListing from "./Pages/AccessoryListing";
 import CartPage from "./Pages/CartPage";
 import OurProducts from "./Pages/OurProducts";
 import RentService from "./Pages/RentService";
-import RentListing from "./Pages/RentListing"; 
+import RentListing from "./Pages/RentListing";
+import ProductDetails from "./Pages/ProductDetails";
+import RentDetails from "./Pages/RentDetails";
 
 const Layout = () => {
   const location = useLocation();
@@ -53,6 +56,8 @@ const Layout = () => {
         <Route path="/ourproducts" element={<OurProducts />} />
         <Route path="/rentservice" element={<RentService />} />
         <Route path="/rentlisting" element={<RentListing />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/rentdetails/:id" element={<RentDetails />} />
       </Routes>
     </>
   );
@@ -60,7 +65,7 @@ const Layout = () => {
 
 const App = () => {
   return (
-    <CartProvider> 
+    <CartProvider>
       <Router>
         <Layout />
       </Router>
@@ -71,6 +76,8 @@ const App = () => {
 export default App;
 
 
+
+
 /*
 import React from "react";
 import {
@@ -79,6 +86,8 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { CartProvider } from "./Context/CartContext";
+
 import Nav from "./assets/components/Nav";
 import Hero from "./assets/components/Hero";
 import OurService from "./assets/components/OurService";
@@ -93,6 +102,10 @@ import ComputerListing from "./Pages/ComputerListing";
 import AccessoryListing from "./Pages/AccessoryListing";
 import CartPage from "./Pages/CartPage";
 import OurProducts from "./Pages/OurProducts";
+import RentService from "./Pages/RentService";
+import RentListing from "./Pages/RentListing";
+import ProductDetails from "./Pages/ProductDetails";
+import RentDetails from "./Pages/RentDetails";
 
 const Layout = () => {
   const location = useLocation();
@@ -122,6 +135,9 @@ const Layout = () => {
         <Route path="/accessorylisting" element={<AccessoryListing />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/ourproducts" element={<OurProducts />} />
+        <Route path="/rentservice" element={<RentService />} />
+        <Route path="/rentlisting" element={<RentListing />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </>
   );
@@ -129,11 +145,18 @@ const Layout = () => {
 
 const App = () => {
   return (
-    <Router>
-      <Layout />
-    </Router>
+    <CartProvider>
+      <Router>
+        <Layout />
+      </Router>
+    </CartProvider>
   );
 };
 
 export default App;
+
+
+
+
+
 */

@@ -54,16 +54,18 @@
 .rent-name {
     font-size: 18px;
     font-weight: bold;
-    margin: 10px 0;
+    margin: 4px 0;
+    line-height: 1.2;
 }
 
 .rent-price {
-    color: #EA3C3C;
-    font-size: 16px;
+    color: #EA3C3C ;
+    font-size: 16px ;
     font-weight: bold;
+    margin: 4px 0;
 }
 
-.rent-now {
+.rent-now-btn {
     background: #EA3C3C;
     color: white;
     border: none;
@@ -75,8 +77,13 @@
     margin-top: auto;
 }
 
-.rent-now:hover {
+.rent-now-btn:hover {
     background: #c5303d;
+}
+
+.rent-card a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .pagination {
@@ -103,3 +110,6 @@
     font-size: 16px;
     font-weight: bold;
 }
+
+
+
