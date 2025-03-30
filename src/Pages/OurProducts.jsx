@@ -11,7 +11,7 @@ const OurProducts = () => {
   return (
     <>
       <section className="products-section">
-        <h2 className="section-title">Our Products</h2>
+        <h2 className="section-title-main">Our Products</h2>
         <p className="section-subtitle">
           Discover our range of high-quality products tailored to your needs
         </p>
