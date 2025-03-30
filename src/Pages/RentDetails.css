@@ -1,113 +1,110 @@
 .rent-details-page {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .rent-details-back-button {
-    margin-bottom: 1.5rem;
-    padding: 0.7rem 1.4rem;
-    background-color: #ea3c3c;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .rent-details-back-button:hover {
-    background-color: #c63232;
-  }
-  
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rent-details-back-button {
+  margin-bottom: 1.5rem;
+  padding: 0.7rem 1.4rem;
+  background-color: #ea3c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.rent-details-back-button:hover {
+  background-color: #c63232;
+}
+
+.rent-details-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.rent-details-images {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.rent-details-main-image {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.rent-details-thumbnail-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rent-details-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.rent-details-thumbnail.selected {
+  border-color: #ea3c3c;
+}
+
+.rent-details-info {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  text-align: left;
+}
+
+.rent-details-name {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.rent-details-price {
+  font-size: 1.5rem;
+  color: #ea3c3c;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+.rent-details-description {
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.rent-details-rent-now-btn {
+  padding: 0.7rem 1.4rem;
+  background-color: #ea3c3c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.rent-details-rent-now-btn:hover {
+  background-color: #c63232;
+}
+
+@media (max-width: 768px) {
   .rent-details-top {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    flex-direction: column;
   }
-  
-  .rent-details-images {
-    flex: 1;
-    min-width: 300px;
-    max-width: 500px;
-  }
-  
-  .rent-details-main-image {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-  }
-  
-  .rent-details-thumbnail-row {
-    display: flex;
-    gap: 0.5rem;
-  }
-  
-  .rent-details-thumbnail {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    cursor: pointer;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .rent-details-thumbnail.selected {
-    border-color: #ea3c3c;
-  }
-  
+  .rent-details-images,
   .rent-details-info {
-    flex: 1;
-    min-width: 300px;
-    max-width: 600px;
-    text-align: left;
+    max-width: 100%;
   }
-  
-  .rent-details-name {
-    font-size: 1.8rem;
-    margin: 0 0 0.5rem 0;
-  }
-  
-  .rent-details-price {
-    font-size: 1.5rem;
-    color: #ea3c3c;
-    margin: 1rem 0;
-    font-weight: bold;
-  }
-  
-  .rent-details-description {
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-  }
-  
-  .rent-details-rent-now-btn {
-    padding: 0.7rem 1.4rem;
-    background-color: #ea3c3c;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .rent-details-rent-now-btn:hover {
-    background-color: #c63232;
-  }
-  
-  @media (max-width: 768px) {
-    .rent-details-top {
-      flex-direction: column;
-    }
-    .rent-details-images,
-    .rent-details-info {
-      max-width: 100%;
-    }
-  }
-  
-  
-  
+}

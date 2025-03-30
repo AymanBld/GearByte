@@ -1,81 +1,78 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family:'Poppins',sans-serif;
-    text-decoration: none;
-    scrollbar-width: 4rem;
-    scroll-behavior: smooth;
-    list-style: none;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  scrollbar-width: 4rem;
+  scroll-behavior: smooth;
+  list-style: none;
 }
-:root{
-    --main-color:#EA3C3C;
-    --button-hover:#ea6464d1;
-    --text-color:#000;
-    --shadow-color:2px 2px 10px 4px rgb(14 55 54 / 15%);
-    --bg-color:#fff;
-    --second-color:#edeae3;
-   
+:root {
+  --main-color: #ea3c3c;
+  --button-hover: #ea6464d1;
+  --text-color: #000;
+  --shadow-color: 2px 2px 10px 4px rgb(14 55 54 / 15%);
+  --bg-color: #fff;
+  --second-color: #edeae3;
 }
-.footer{
-    padding: 50px 50px 50px 100px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(240px,auto));
-    grid-gap: 1.5rem;
-    align-items: start;
+.footer {
+  padding: 50px 50px 50px 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, auto));
+  grid-gap: 1.5rem;
+  align-items: start;
 }
-.footer-box h2{
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
+.footer-box h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
-.footer-box h2 span{
-    color: var(--main-color);
+.footer-box h2 span {
+  color: var(--main-color);
 }
-.footer-box p{
+.footer-box p {
   font-size: 0.938rem;
   margin-bottom: 10px;
 }
-.footer .social{
-    display: flex;
-    align-items: center;
-    column-gap: 0.5rem;
+.footer .social {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
 }
-.social .bx{
-    font-size: 24px;
-    color: #000;
-    background-color: var(--second-color);
-    border-radius: 0.2rem;
-    padding: 10px;
-
+.social .bx {
+  font-size: 24px;
+  color: #000;
+  background-color: var(--second-color);
+  border-radius: 0.2rem;
+  padding: 10px;
 }
-.social .bx:hover{
-    background-color: var(--main-color);
-    color: white;
+.social .bx:hover {
+  background-color: var(--main-color);
+  color: white;
 }
-.footer-box h3{
-    font-weight:600;
-    margin-bottom: 10px;
-    font-size: 1.2rem;
+.footer-box h3 {
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
 }
-.footer-box li a{
-    color: #000;
+.footer-box li a {
+  color: #000;
 }
-.footer-box li a:hover{
-    color: #bc9667;
+.footer-box li a:hover {
+  color: #bc9667;
 }
-.contact{
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.5rem;
+.contact {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
-.contact span{
-    display: flex;
-    align-items: center;
+.contact span {
+  display: flex;
+  align-items: center;
 }
-.contact i{
-    font-size: 20px;
-    margin-right: 1rem;
-
+.contact i {
+  font-size: 20px;
+  margin-right: 1rem;
 }

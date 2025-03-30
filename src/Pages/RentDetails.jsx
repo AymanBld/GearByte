@@ -18,7 +18,10 @@ const RentDetails = () => {
   return (
     <>
       <div className="rent-details-page">
-        <button onClick={() => navigate(-1)} className="rent-details-back-button">
+        <button
+          onClick={() => navigate(-1)}
+          className="rent-details-back-button"
+        >
           &larr; Back
         </button>
 
@@ -35,7 +38,9 @@ const RentDetails = () => {
                   key={idx}
                   src={img}
                   alt={`Thumbnail ${idx + 1}`}
-                  className={`rent-details-thumbnail ${mainImage === img ? "selected" : ""}`}
+                  className={`rent-details-thumbnail ${
+                    mainImage === img ? "selected" : ""
+                  }`}
                   onClick={() => setMainImage(img)}
                 />
               ))}
@@ -59,5 +64,3 @@ const RentDetails = () => {
 };
 
 export default RentDetails;
-
-

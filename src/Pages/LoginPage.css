@@ -1,4 +1,3 @@
-/* LoginPage.css */
 .signup-container {
   display: flex;
   min-height: 100vh;
@@ -8,7 +7,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Left and right sections share similar styling */
 .signup-left,
 .signup-right {
   flex: 1;
@@ -18,14 +16,12 @@
   padding: 20px;
 }
 
-/* Limit the image width for responsiveness */
 .signup-image {
   width: 100%;
   max-width: 600px;
   border-radius: 10px;
 }
 
-/* Right section (form area) */
 .signup-right {
   flex-direction: column;
   padding: 40px;
@@ -43,7 +39,6 @@
   font-size: 1rem;
 }
 
-/* Form container */
 .signup-form {
   width: 90%;
 }
@@ -68,7 +63,6 @@
   border-radius: 4px;
 }
 
-/* Button styles */
 .btn {
   cursor: pointer;
   padding: 12px 20px;
@@ -84,7 +78,7 @@
 }
 
 .btn-primary2 {
-  background-color: #EA3C3C;
+  background-color: #ea3c3c;
   color: #fff;
   width: 65%;
   transition: background-color 0.3s;
@@ -95,9 +89,8 @@
   background-color: #c92e2e;
 }
 
-/* Forgot password link */
 .forgot-password {
-  color: #EA3C3C;
+  color: #ea3c3c;
   text-decoration: none;
   font-size: 1rem;
   margin-right: 20px;
@@ -109,7 +102,6 @@
   text-decoration: underline;
 }
 
-/* Bottom link for account creation */
 .login-link {
   margin-top: 16px;
   text-align: center;
@@ -117,22 +109,20 @@
 }
 
 .login-link a {
-  color: #EA3C3C;
+  color: #ea3c3c;
   text-decoration: none;
 }
 
 .form-actions {
   display: flex;
   align-items: center;
-  gap: 20px; 
+  gap: 20px;
 }
-
 
 .login-link a:hover {
   text-decoration: underline;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .signup-container {
     flex-direction: column;
@@ -146,115 +136,3 @@
     max-width: 100%;
   }
 }
-
-
-
-
-
-
-/*
-.signup-container {
-    display: flex;
-    min-height: 100vh;
-    background-color: #fff;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
-  
-  .signup-left,
-  .signup-right {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .signup-image {
-    width: 600px;
-    border-radius: 10px;
-    height: auto;
-  }
-  
-  .signup-right {
-    flex-direction: column;
-    padding: 40px;
-    box-sizing: border-box;
-  }
-  
-  .signup-right h2 {
-    margin-bottom: 8px;
-  }
-  
-  .signup-right p {
-    margin-bottom: 24px;
-    color: #555;
-  }
-  
-  .signup-form {
-    width: 90%;
-  }
-  
-  .signup-form .form-group {
-    margin-bottom: 16px;
-    width: 100%;
-  }
-  
-  .signup-form label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: bold;
-  }
-  
-  .signup-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .btn {
-    cursor: pointer;
-    padding: 12px 20px;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: inline-block;
-    text-align: center;
-    box-sizing: border-box;
-  }
-  
-  .btn-primary2 {
-    background-color: #EA3C3C;
-    color: #fff;
-    border: none;
-    width: 65%;
-  }
-
-  .forgot-password {
-    color: #EA3C3C;
-    text-decoration: none;
-    font-size: 16px;
-    margin-right: 20px;
-  }
-  
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
-  
-  .login-link {
-    margin-top: 16px;
-    text-align: center;
-  }
-  
-  .login-link a {
-    color: #EA3C3C;
-    text-decoration: none;
-  }
-  
-  .login-link a:hover {
-    text-decoration: underline;
-  }
-  
