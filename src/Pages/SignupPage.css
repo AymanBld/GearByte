@@ -61,6 +61,16 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.signup-form .input-error {
+  background-color: #ffe5e5 !important;
+}
+
+.signup-form .input-valid {
+  background-color: #e6ffea !important;
 }
 
 .btn {
@@ -135,15 +145,45 @@
   text-decoration: underline;
 }
 
+.input-container {
+  position: relative;
+}
+
+.input-container input {
+  padding-right: 35px;
+}
+
+.icon {
+  position: absolute;
+  top: 45%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.icon-error {
+  color: #ea3c3c;
+}
+
+.icon-valid {
+  color: #28a745;
+}
+
 @media (max-width: 768px) {
   .signup-container {
     flex-direction: column;
   }
+
   .signup-left,
   .signup-right {
     flex: none;
     width: 100%;
   }
+
   .signup-image {
     max-width: 100%;
   }

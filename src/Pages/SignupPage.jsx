@@ -7,30 +7,34 @@ import google from "./Google.webp";
 
 function SignupPage() {
   const [contact, setContact] = useState("");
+  const [isValid, setIsValid] = useState(null);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const allowedDomains = [
-    "@gmail.com",
-    "@yahoo.com",
-    "@outlook.com",
-    "@hotmail.com",
-  ];
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const algerianPhoneRegex = /^(05|06|07)\d{8}$/;
+
+  const validateContact = (value) => {
+    const trimmedValue = value.trim().toLowerCase();
+    const isEmailValid = emailRegex.test(trimmedValue);
+    const isPhoneValid = algerianPhoneRegex.test(trimmedValue);
+
+    if (trimmedValue.length > 0) {
+      setIsValid(isEmailValid || isPhoneValid);
+    } else {
+      setIsValid(null);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmedContact = contact.trim().toLowerCase();
-    const isEmailValid = allowedDomains.some((domain) =>
-      trimmedContact.endsWith(domain)
-    );
+    const isEmailValid = emailRegex.test(trimmedContact);
     const isPhoneValid = algerianPhoneRegex.test(trimmedContact);
 
     if (!isEmailValid && !isPhoneValid) {
       setAlertMessage(
-        `Enter a valid email (ending with: ${allowedDomains.join(
-          ", "
-        )}) or a valid Algerian phone number (10 digits starting with 05, 06, or 07).`
+        `Please enter a valid email (e.g., user@example.com) or a valid Algerian phone number (10 digits starting with 05, 06, or 07).`
       );
       setAlertOpen(true);
       return;
@@ -42,11 +46,7 @@ function SignupPage() {
     <div className="signup-container">
       <div className="signup-left">
         <Link to="/">
-          <img
-            src={signup}
-            alt="Intel Core i7 10th Gen"
-            className="signup-image"
-          />
+          <img src={signup} alt="Signup Visual" className="signup-image" />
         </Link>
       </div>
 
@@ -62,13 +62,31 @@ function SignupPage() {
 
           <div className="form-group">
             <label htmlFor="contact">Email or Phone Number</label>
-            <input
-              type="text"
-              id="contact"
-              placeholder="Enter your email or phone number"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
-            />
+            <div className="input-container">
+              <input
+                type="text"
+                id="contact"
+                placeholder="Enter your email or phone number"
+                value={contact}
+                className={
+                  isValid === true
+                    ? "input-valid"
+                    : isValid === false
+                    ? "input-error"
+                    : ""
+                }
+                onChange={(e) => {
+                  setContact(e.target.value);
+                  validateContact(e.target.value);
+                }}
+              />
+              {contact.trim().length > 0 && isValid === false && (
+                <span className="icon icon-error">✖</span>
+              )}
+              {contact.trim().length > 0 && isValid === true && (
+                <span className="icon icon-valid">&#10003;</span>
+              )}
+            </div>
           </div>
 
           <div className="form-group">

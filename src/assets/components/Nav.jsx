@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { CartContext } from "../../Context/CartContext";
 import "./Nav.css";
 
 const Nav = () => {
+  const { cart } = useContext(CartContext);
+  const totalCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -133,10 +137,28 @@ const Nav = () => {
           </ul>
         </div>
         <Link to="/cart">
-          <i
-            className="bx bx-cart"
-            style={{ color: isCartActive ? activeColor : defaultColor }}
-          ></i>
+          <div style={{ position: "relative" }}>
+            <i
+              className="bx bx-cart"
+              style={{ color: isCartActive ? activeColor : defaultColor }}
+            ></i>
+            {totalCount > 0 && (
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-5px",
+                  right: "-5px",
+                  background: "#ea3c3c",
+                  color: "white",
+                  borderRadius: "50%",
+                  fontSize: "10px",
+                  padding: "2px 5px",
+                }}
+              >
+                {totalCount}
+              </span>
+            )}
+          </div>
         </Link>
         <i
           className={`bx bx-menu ${menuOpen ? "active" : ""}`}

@@ -61,6 +61,36 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-right: 30px;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-valid {
+  border-color: #4caf50;
+}
+
+.input-error {
+  border-color: #f44336;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #f44336;
+}
+
+.icon-valid {
+  color: #4caf50;
+}
+
+.icon-error {
+  color: #f44336;
 }
 
 .btn {
