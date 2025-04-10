@@ -1,0 +1,240 @@
+.checkout-page {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+  }
+  
+  .checkout-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .checkout-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  @media (min-width: 768px) {
+    .checkout-content {
+      flex-direction: row;
+    }
+  }
+  
+  .checkout-form-container {
+    flex: 2;
+  }
+  
+  .checkout-form {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-section {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .section-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    color: #ea3c3c;
+  }
+  
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  @media (min-width: 640px) {
+    .form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #ea3c3c;
+    box-shadow: 0 0 0 1px #ea3c3c;
+    
+  }
+  
+  .input-error {
+    border-color: #ea3c3c !important;
+  }
+  
+  .error-message {
+    color: #ea3c3c;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .info-box {
+    background-color: #fff9e6;
+    border: 1px solid #ffe58f;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .info-box p {
+    font-size: 14px;
+    color: #856404;
+  }
+  
+  /* Order Summary Styles */
+  .checkout-summary {
+    flex: 1;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+  }
+  
+  .summary-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .summary-items {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  
+  .item-info {
+    flex: 1;
+  }
+  
+  .item-name {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .item-quantity {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .item-price {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .summary-details {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
+  
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .complete-order-btn {
+   display: inline-flex;
+   width: 100%;
+   align-items: center;
+   justify-content: center;
+    padding: 12px;
+    background-color: #ea3c3c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  
+  .complete-order-btn:hover {
+    background-color: #c5303d;
+  }
+  
+  .complete-order-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .payment-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .payment-logo {
+    height: 24px;
+    margin-right: 10px;
+  }
+  
+  .terms-notice {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-top: 15px;
+  }

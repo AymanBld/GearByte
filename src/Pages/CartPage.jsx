@@ -5,6 +5,8 @@ import Copyright from "../assets/components/Copyright";
 import { CartContext } from "../Context/CartContext";
 import "./CartPage.css";
 
+
+
 const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
 
@@ -21,6 +23,7 @@ const CartPage = () => {
   };
 
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+ 
 
   return (
     <>
@@ -89,7 +92,9 @@ const CartPage = () => {
               <strong>Total</strong>
               <strong>${total}</strong>
             </div>
-            <button className="checkout-btn">Proceed to Checkout</button>
+            <Link to="/checkout" >
+               <button className="checkout-btn">Proceed to Checkout</button>
+            </Link>
           </div>
         </div>
       </section>

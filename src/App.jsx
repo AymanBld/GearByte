@@ -25,6 +25,8 @@ import RentService from "./Pages/RentService";
 import RentListing from "./Pages/RentListing";
 import ProductDetails from "./Pages/ProductDetails";
 import RentDetails from "./Pages/RentDetails";
+import CheckoutPage from "./Pages/CheckoutPage";
+import OrderConfirmationPage from "./Pages/OrderConfirmationPage";
 
 const Layout = () => {
   const location = useLocation();
@@ -58,6 +60,9 @@ const Layout = () => {
         <Route path="/rentlisting" element={<RentListing />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/rentdetails/:id" element={<RentDetails />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/orderconfirmation" element={<OrderConfirmationPage />} />
+
       </Routes>
     </>
   );
