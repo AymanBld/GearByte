@@ -1,62 +1,109 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
 import AlertModal from "./AlertModal";
 import signup from "../../Sign_up.png";
 
 function LoginPage() {
-  const [contact, setContact] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",  // This will store either email or username
+    password: "",
+  });
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [isValid, setIsValid] = useState(null);
 
-  const algerianPhoneRegex = /^(05|06|07)\d{8}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const validateContact = (value) => {
+  const validateInput = (value) => {
     const trimmedValue = value.trim().toLowerCase();
     const isEmailValid = emailRegex.test(trimmedValue);
-    const isPhoneValid = algerianPhoneRegex.test(trimmedValue);
+    const isUsernameValid = trimmedValue.length >= 3; // Minimum username length
 
     if (trimmedValue.length > 0) {
-      setIsValid(isEmailValid || isPhoneValid);
+      setIsValid(isEmailValid || isUsernameValid);
     } else {
       setIsValid(null);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const trimmedContact = contact.trim().toLowerCase();
-    const isEmailValid = emailRegex.test(trimmedContact);
-    const isPhoneValid = algerianPhoneRegex.test(trimmedContact);
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
 
-    if (!isEmailValid && !isPhoneValid) {
-      setAlertMessage(
-        `Please enter a valid email (e.g., user@example.com) or a valid Algerian phone number (10 digits starting with 05, 06, or 07).`
-      );
+    if (id === 'email') {
+      validateInput(value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const trimmedInput = formData.email.trim();
+
+    if (!trimmedInput) {
+      setAlertMessage("Please enter your email or username");
       setAlertOpen(true);
       return;
     }
 
-    console.log(
-      "Logging in with contact:",
-      trimmedContact,
-      "and password:",
-      password
-    );
+    if (!formData.password) {
+      setAlertMessage("Please enter your password");
+      setAlertOpen(true);
+      return;
+    }
+
+    try {
+      // Prepare the data for API
+      const loginData = {
+        email: emailRegex.test(trimmedInput) ? trimmedInput : '',  // If input is email, use it here
+        username: !emailRegex.test(trimmedInput) ? trimmedInput : '',  // If input is not email, treat as username
+        password: formData.password
+      };
+
+      // Make API call here
+      const response = await fetch('http://localhost:8000/auth/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+
+      const data = await response.json();
+      
+      // Handle successful login
+      console.log("Login successful:", data);
+      
+      // Store token if provided
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
+
+      // Redirect to dashboard or home page
+      navigate('/');
+
+    } catch (error) {
+      console.error("Login error:", error);
+      setAlertMessage(error.message || "Invalid credentials. Please try again.");
+      setAlertOpen(true);
+    }
   };
 
   return (
     <div className="signup-container">
       <div className="signup-left">
         <Link to="/">
-          <img
-            src={signup}
-            alt="Intel Core i7 10th Gen"
-            className="signup-image"
-          />
+          <img src={signup} alt="Login Visual" className="signup-image" />
         </Link>
       </div>
 
@@ -66,13 +113,13 @@ function LoginPage() {
 
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email or Phone Number</label>
+            <label htmlFor="email">Email or Username</label>
             <div className="input-container">
               <input
                 type="text"
                 id="email"
-                placeholder="Enter your email or phone number"
-                value={contact}
+                placeholder="Enter your email or username"
+                value={formData.email}
                 className={
                   isValid === true
                     ? "input-valid"
@@ -80,15 +127,12 @@ function LoginPage() {
                     ? "input-error"
                     : ""
                 }
-                onChange={(e) => {
-                  setContact(e.target.value);
-                  validateContact(e.target.value);
-                }}
+                onChange={handleChange}
               />
-              {contact.trim().length > 0 && isValid === false && (
+              {formData.email.trim().length > 0 && !isValid && (
                 <span className="icon icon-error">✖</span>
               )}
-              {contact.trim().length > 0 && isValid === true && (
+              {formData.email.trim().length > 0 && isValid && (
                 <span className="icon icon-valid">&#10003;</span>
               )}
             </div>
@@ -100,13 +144,13 @@ function LoginPage() {
               type="password"
               id="password"
               placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
             />
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary2">
+            <button type="submit" className="btn btn-primary">
               Log In
             </button>
             <Link to="/forgot-password" className="forgot-password">
