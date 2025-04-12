@@ -3,7 +3,7 @@ import "./Copyright.css";
 
 const Copyright = () => {
   return (
-    <div class="copyright">
+    <div className="copyright">
       <p>&#169;CarpoolVenom All Rights Reserved</p>
     </div>
   );
