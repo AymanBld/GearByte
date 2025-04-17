@@ -1,29 +1,67 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
-import { CartContext } from "../Context/CartContext";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
 import "./CartPage.css";
 
-
-
 const CartPage = () => {
-  const { cart, setCart } = useContext(CartContext);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const setExactQuantity = (id, newQuantity) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
-      )
-    );
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchWithAuth('/Store/cart/');
+      if (!response.ok) throw new Error('Failed to fetch cart');
+      const data = await response.json();
+      setCartItems(data);
+    } catch (err) {
+      setError('Failed to load cart');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeItem = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  const handleQuantityChange = async (cartItemId, newQuantity) => {
+    try {
+      const response = await fetchWithAuth(`/Store/cart/${cartItemId}/`, {
+        method: 'PATCH',
+        body: JSON.stringify({ quantity: Math.max(1, newQuantity) }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to update quantity');
+      await fetchCart(); // Refresh cart data
+    } catch (err) {
+      console.error('Failed to update quantity:', err);
+    }
   };
 
-  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
- 
+  const handleRemoveItem = async (cartItemId) => {
+    try {
+      const response = await fetchWithAuth(`/Store/cart/${cartItemId}/`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) throw new Error('Failed to remove item');
+      await fetchCart(); // Refresh cart data
+    } catch (err) {
+      console.error('Failed to remove item:', err);
+    }
+  };
+
+  const calculateTotal = () => {
+    return cartItems.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
+  };
+
+  if (loading) return <div className="cart-section">Loading...</div>;
+  if (error) return <div className="cart-section">Error: {error}</div>;
 
   return (
     <>
@@ -42,26 +80,36 @@ const CartPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item) => (
+                {cartItems.map((item) => (
                   <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>${item.price}</td>
+                    <td>
+                      <div className="product-cell">
+                        <img 
+                          src={item.product.image} 
+                          alt={item.product.name} 
+                          className="cart-product-image"
+                        />
+                        <span>{item.product.name}</span>
+                      </div>
+                    </td>
+                    <td>${item.product.price}</td>
                     <td>
                       <input
                         className="qty-input"
                         type="number"
                         min="1"
+                        max={item.product.stock}
                         value={item.quantity}
                         onChange={(e) =>
-                          setExactQuantity(item.id, Number(e.target.value))
+                          handleQuantityChange(item.id, Number(e.target.value))
                         }
                       />
                     </td>
-                    <td>${item.price * item.quantity}</td>
+                    <td>${item.subtotal}</td>
                     <td>
                       <button
                         className="delete-btn"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => handleRemoveItem(item.id)}
                       >
                         <i className="bx bx-trash"></i>
                       </button>
@@ -74,7 +122,6 @@ const CartPage = () => {
               <Link to="/ourproducts">
                 <button className="return-btn">Return to Shop</button>
               </Link>
-              <button className="update-btn">Update Cart</button>
             </div>
           </div>
 
@@ -82,7 +129,7 @@ const CartPage = () => {
             <h3 className="summary-title">Cart Total</h3>
             <div className="summary-line">
               <span>Subtotal</span>
-              <span>${total}</span>
+              <span>${calculateTotal()}</span>
             </div>
             <div className="summary-line">
               <span>Shipping</span>
@@ -90,10 +137,12 @@ const CartPage = () => {
             </div>
             <div className="summary-line total-line">
               <strong>Total</strong>
-              <strong>${total}</strong>
+              <strong>${calculateTotal()}</strong>
             </div>
-            <Link to="/checkout" >
-               <button className="checkout-btn">Proceed to Checkout</button>
+            <Link to="/checkout">
+              <button className="checkout-btn" disabled={cartItems.length === 0}>
+                Proceed to Checkout
+              </button>
             </Link>
           </div>
         </div>
