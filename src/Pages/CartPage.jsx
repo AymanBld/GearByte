@@ -9,6 +9,7 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
     fetchCart();
@@ -53,6 +54,20 @@ const CartPage = () => {
       await fetchCart(); // Refresh cart data
     } catch (err) {
       console.error('Failed to remove item:', err);
+    }
+  };
+
+  const handleClearCart = async () => {
+    try {
+      const response = await fetchWithAuth('/Store/cart/clear/', {
+        method: 'DELETE'
+      });
+      
+      if (!response.ok) throw new Error('Failed to clear cart');
+      await fetchCart(); // Refresh cart data
+      setShowClearConfirm(false);
+    } catch (err) {
+      console.error('Failed to clear cart:', err);
     }
   };
 
@@ -122,6 +137,14 @@ const CartPage = () => {
               <Link to="/ourproducts">
                 <button className="return-btn">Return to Shop</button>
               </Link>
+              {cartItems.length > 0 && (
+                <button 
+                  className="clear-cart-btn"
+                  onClick={() => setShowClearConfirm(true)}
+                >
+                  <i className='bx bx-trash-alt'></i> Clear Cart
+                </button>
+              )}
             </div>
           </div>
 
@@ -147,6 +170,34 @@ const CartPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Clear Cart Confirmation Dialog */}
+      {showClearConfirm && (
+        <div className="dialog-overlay">
+          <div className="dialog-content">
+            <div className="dialog-header">
+              <i className='bx bx-error-circle'></i>
+              <h3>Clear Cart</h3>
+            </div>
+            <p>Are you sure you want to remove all items from your cart? This action cannot be undone.</p>
+            <div className="dialog-actions">
+              <button 
+                className="cancel-btn"
+                onClick={() => setShowClearConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="clear-btn"
+                onClick={handleClearCart}
+              >
+                Clear Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <Footer />
       <Copyright />
     </>
