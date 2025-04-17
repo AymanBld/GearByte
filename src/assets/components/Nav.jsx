@@ -1,15 +1,29 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { CartContext } from "../../Context/CartContext";
 import "./Nav.css";
 
 const Nav = () => {
-  const { cart } = useContext(CartContext);
-  const totalCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-
   const [menuOpen, setMenuOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/Store/category/');
+      if (!response.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   const handleScroll = (sectionId) => {
     if (location.pathname !== "/") {
@@ -35,15 +49,9 @@ const Nav = () => {
     location.pathname === "/rentlisting" ||
     location.pathname.startsWith("/rentdetails");
 
-  const isComputerActive = location.pathname === "/computerlisting";
-  const isMonitorActive = location.pathname === "/monitorlisting";
-  const isAccessoryActive = location.pathname === "/accessorylisting";
-
   const isOurProductsActive =
     location.pathname === "/ourproducts" ||
-    isComputerActive ||
-    isMonitorActive ||
-    isAccessoryActive ||
+    categories.some(cat => location.pathname === `/${cat.name}`) ||
     location.pathname.startsWith("/product/");
 
   const isCartActive = location.pathname === "/cart";
@@ -86,36 +94,18 @@ const Nav = () => {
                 OurProducts <i className="bx bx-chevron-down"></i>
               </Link>
               <ul className="dropdown-menu">
-                <li>
-                  <Link
-                    to="/computerlisting"
-                    style={{
-                      color: isComputerActive ? activeColor : defaultColor,
-                    }}
-                  >
-                    Computers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/monitorlisting"
-                    style={{
-                      color: isMonitorActive ? activeColor : defaultColor,
-                    }}
-                  >
-                    Monitors
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/accessorylisting"
-                    style={{
-                      color: isAccessoryActive ? activeColor : defaultColor,
-                    }}
-                  >
-                    Accessories
-                  </Link>
-                </li>
+                {categories.map(category => (
+                  <li key={category.id}>
+                    <Link
+                      to={`/${category.name}`}
+                      style={{
+                        color: location.pathname === `/${category.name}` ? activeColor : defaultColor,
+                      }}
+                    >
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </li>
             <li>
@@ -142,22 +132,6 @@ const Nav = () => {
               className="bx bx-cart"
               style={{ color: isCartActive ? activeColor : defaultColor }}
             ></i>
-            {totalCount > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: "-5px",
-                  right: "-5px",
-                  background: "#ea3c3c",
-                  color: "white",
-                  borderRadius: "50%",
-                  fontSize: "10px",
-                  padding: "2px 5px",
-                }}
-              >
-                {totalCount}
-              </span>
-            )}
           </div>
         </Link>
         <i

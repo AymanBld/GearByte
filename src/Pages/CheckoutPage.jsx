@@ -1,17 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { CartContext } from "../Context/CartContext";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import { CreditCard, Truck, ShoppingBag } from 'lucide-react';
-import "./CheckoutPage.css";
-import Poste from "./Poste.jpg"
 import emailjs from '@emailjs/browser';
+import "./CheckoutPage.css";
 
 const CheckoutPage = () => {
-  const { cart, setCart } = useContext(CartContext);
   const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -28,17 +27,33 @@ const CheckoutPage = () => {
     cvv: "",
   });
 
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  const fetchCart = async () => {
+    try {
+      const response = await fetchWithAuth('/Store/cart/');
+      if (!response.ok) throw new Error('Failed to fetch cart');
+      const data = await response.json();
+      setCartItems(data);
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+      navigate('/cart');
+    }
+  };
+
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Redirect to cart if cart is empty
   useEffect(() => {
-    if (cart.length === 0) {
+    if (cartItems.length === 0) {
       navigate("/cart");
     }
-  }, [cart, navigate]);
+  }, [cartItems, navigate]);
 
-  const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const shipping = 0.00 ; 
    
   const total = subtotal + shipping ;
@@ -122,7 +137,7 @@ const CheckoutPage = () => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Clear cart after successful order
-      setCart([]);
+      setCartItems([]);
 
       // Redirect to success page
       navigate("/orderconfirmation");
@@ -371,7 +386,7 @@ const CheckoutPage = () => {
               </div>
 
               <div className="summary-items">
-                {cart.map((item) => (
+                {cartItems.map((item) => (
                   <div key={item.id} className="summary-item">
                     <div className="item-info">
                       <p className="item-name">{item.name}</p>

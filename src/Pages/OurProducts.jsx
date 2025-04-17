@@ -1,13 +1,52 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./OurProducts.css";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
-import monitorIcon from "./Monitor.webp";
-import desktopIcon from "./ComputerIcon.jpg";
-import accessoryIcon from "./AccessoryIcon.png";
+import "./OurProducts.css";
 
 const OurProducts = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:8000/Store/category/');
+      if (!response.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      const data = await response.json();
+      setCategories(data);
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching categories:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading categories...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <section className="products-section">
@@ -17,27 +56,21 @@ const OurProducts = () => {
         </p>
 
         <div className="products-grid">
-          <Link to="/monitorlisting" className="product-card">
-            <img src={monitorIcon} alt="Monitors" className="product-icon" />
-            <h3 style={{ color: "#EA3C3C" }}>Monitors</h3>
-            <p>High-resolution displays for gaming, work, and entertainment.</p>
-          </Link>
-
-          <Link to="/computerlisting" className="product-card">
-            <img src={desktopIcon} alt="Computers" className="product-icon" />
-            <h3 style={{ color: "#EA3C3C" }}>Computers</h3>
-            <p>Powerful PCs built for performance and reliability.</p>
-          </Link>
-
-          <Link to="/accessorylisting" className="product-card">
-            <img
-              src={accessoryIcon}
-              alt="Accessories"
-              className="product-icon"
-            />
-            <h3 style={{ color: "#EA3C3C" }}>Accessories</h3>
-            <p>Enhance your setup with our top-notch peripherals.</p>
-          </Link>
+          {categories.map(category => (
+            <Link 
+              to={`/${category.name}`} 
+              className="product-card" 
+              key={category.id}
+            >
+              <img 
+                src={category.icon || `/default-${category.name}.png`} 
+                alt={category.name} 
+                className="product-icon" 
+              />
+              <h3 style={{ color: "#EA3C3C" }}>{category.name}</h3>
+              <p>{category.description || `Explore our ${category.name} collection`}</p>
+            </Link>
+          ))}
         </div>
       </section>
 
