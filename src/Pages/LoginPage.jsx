@@ -60,8 +60,8 @@ function LoginPage() {
     try {
       // Prepare the data for API
       const loginData = {
-        email: emailRegex.test(trimmedInput) ? trimmedInput : '',  // If input is email, use it here
-        username: !emailRegex.test(trimmedInput) ? trimmedInput : '',  // If input is not email, treat as username
+        email: emailRegex.test(trimmedInput) ? trimmedInput : '',  
+        username: !emailRegex.test(trimmedInput) ? trimmedInput : '',  
         password: formData.password
       };
 
@@ -81,8 +81,16 @@ function LoginPage() {
 
       const data = await response.json();
       
-      // Store token in localStorage
+      // Store token and dispatch storage event
       localStorage.setItem('token', data.key);
+      
+      // Dispatch a custom event for immediate state update
+      window.dispatchEvent(new StorageEvent('storage', {
+        key: 'token',
+        newValue: data.key,
+        oldValue: null,
+        storageArea: localStorage
+      }));
       
       // Redirect to dashboard or home page
       navigate('/');

@@ -19,6 +19,11 @@ import ProductDetails from "./Pages/ProductDetails";
 import RentDetails from "./Pages/RentDetails";
 import CheckoutPage from "./Pages/CheckoutPage";
 import OrderConfirmationPage from "./Pages/OrderConfirmationPage";
+import ProfilePage from "./Pages/ProfilePage";
+import OrdersPage from "./Pages/OrdersPage";
+import AddressesPage from "./Pages/AddressesPage";
+import NotificationsPage from "./Pages/NotificationsPage";
+import PasswordResetConfirmPage from './Pages/PasswordResetConfirmPage';
 
 const App = () => {
   return (
@@ -49,6 +54,11 @@ const App = () => {
         <Route path="/rentdetails/:id" element={<RentDetails />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/orderconfirmation" element={<OrderConfirmationPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/addresses" element={<AddressesPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/auth/password/reset/confirm/:uid/:token" element={<PasswordResetConfirmPage />} />
       </Routes>
     </Router>
   );

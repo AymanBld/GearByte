@@ -144,11 +144,109 @@ button:hover {
 .dropdown:hover .dropdown-menu {
   display: block;
 }
-.bx-user {
-  font-size: 28px;
+.user-avatar-container {
+  position: relative;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--main-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  color: var(--text-color);
-  display: none;
+  transition: background-color 0.3s ease;
+}
+
+.user-avatar:hover {
+  background-color: var(--text-color);
+}
+
+.user-avatar i {
+  color: white;
+  font-size: 20px;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownFade 0.2s ease;
+}
+
+.dropdown-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f8f9fa;
+}
+
+.dropdown-header i {
+  font-size: 24px;
+  color: var(--main-color);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 8px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+/* Add !important to override any existing styles */
+.dropdown-item:hover {
+  background-color: #f8f9fa !important;
+  color: var(--main-color) !important;
+}
+
+.dropdown-item:hover i {
+  color: var(--main-color) !important;
+}
+
+/* Special styling for logout item */
+.logout-item:hover {
+  background-color: #fff5f5 !important;
+  color: #dc3545 !important;
+}
+
+.logout-item:hover i {
+  color: #dc3545 !important;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 1030px) {
@@ -250,10 +348,11 @@ button:hover {
   #menu-icon {
     display: block;
   }
-  .bx-user {
-    display: block;
-  }
-  #login {
-    display: none;
+  .user-dropdown {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    left: 10px;
+    margin-top: 0;
   }
 }
