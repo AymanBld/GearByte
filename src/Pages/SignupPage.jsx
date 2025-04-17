@@ -124,14 +124,8 @@ function SignupPage() {
 
       const data = await response.json();
       
-      // Handle successful signup
-      console.log("Signup successful:", data);
+      localStorage.setItem('token', data.key);
       
-      // Optional: Store token if provided
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-      }
-
       // Redirect to login page or dashboard
       navigate('/login');
 
