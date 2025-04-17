@@ -4,7 +4,7 @@ import "./SignupPage.css";
 import { Link } from "react-router-dom";
 import AlertModal from "./AlertModal";
 import signup from "../../Sign_up.png";
-import google from "./Google.webp";
+import google from "../../Google.webp";
 
 function SignupPage() {
   const navigate = useNavigate();

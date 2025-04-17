@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import "./RentListing.css";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
-import rentIcon from "./RentIcon.webp";
-import rentPC from "./RentPC.jpg";
-import rentPC2 from "./RentPC2.png";
-import rentPC3 from "./RentPC3.png";
-import rentPC4 from "./RentPC4.webp";
+import rentIcon from "../assets/imges/rentIcon.webp";
+import rentPC from "../assets/imges/rentPC.jpg";
+import rentPC2 from "../assets/imges/rentPC2.png";
+import rentPC3 from "../assets/imges/rentPC3.png";
+import rentPC4 from "../assets/imges/rentPC4.webp";
 
 const rentItems = [
   {

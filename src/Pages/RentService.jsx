@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "./RentService.css";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
-import rentLaptop from "./Rent.png";
+import rentLaptop from "../assets/imges/Rent.png";
 
 const RentService = () => {
   const navigate = useNavigate();
