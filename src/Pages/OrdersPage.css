@@ -1,0 +1,176 @@
+.orders-page {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.orders-container {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.orders-container h2 {
+  margin-bottom: 30px;
+  color: var(--text-color);
+}
+
+.orders-loading, .orders-error {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+}
+
+.no-orders {
+  text-align: center;
+  padding: 40px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.no-orders i {
+  font-size: 48px;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.no-orders p {
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.shop-now-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: var(--main-color);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.shop-now-btn:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.order-main {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-id {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.order-date, .order-amount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.order-date i, .order-amount i {
+  font-size: 16px;
+}
+
+.order-right {
+  display: flex;
+  align-items: center;
+}
+
+.order-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.order-status i {
+  font-size: 16px;
+}
+
+/* Status colors */
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-processing {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-shipped {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-delivered {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .order-main {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .order-right {
+    width: 100%;
+  }
+
+  .order-status {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Remove track button related styles */
+
+
