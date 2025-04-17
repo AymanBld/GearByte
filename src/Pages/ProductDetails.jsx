@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CartContext } from "../Context/CartContext";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./ProductDetails.css";
@@ -8,19 +8,35 @@ import "./ProductDetails.css";
 const ProductDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext);
+  const [quantity, setQuantity] = useState(1);
 
   const product = location.state?.product;
   const imagesArray = product.images || [product.image];
   const [mainImage, setMainImage] = useState(imagesArray[0]);
-  const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return <h2 className="not-found">Product not found.</h2>;
   }
 
-  const handleAddToCart = () => {
-    addToCart({ ...product, quantity });
+  const handleAddToCart = async () => {
+    try {
+      const response = await fetchWithAuth('/Store/cart/add/', {
+        method: 'POST',
+        body: JSON.stringify({
+          product_id: product.id,
+          quantity: quantity
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add to cart');
+      }
+
+      alert('Product added to cart successfully!');
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      alert('Failed to add product to cart');
+    }
   };
 
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
