@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
+import Toast from "../components/Toast";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./ProductListing.css";
@@ -14,6 +15,7 @@ const ProductListing = () => {
     next: null,
     previous: null
   });
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
   const { category } = useParams(); // Updated parameter name
 
   useEffect(() => {
@@ -62,10 +64,18 @@ const ProductListing = () => {
         throw new Error('Failed to add item to cart');
       }
 
-      alert('Product added to cart successfully!');
+      setToast({
+        show: true,
+        message: 'Product added to cart successfully!',
+        type: 'success'
+      });
     } catch (err) {
       console.error("Error adding to cart:", err);
-      alert('Failed to add product to cart');
+      setToast({
+        show: true,
+        message: 'Failed to add product to cart',
+        type: 'error'
+      });
     }
   };
 
@@ -118,6 +128,13 @@ const ProductListing = () => {
 
   return (
     <>
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
       <section className="product-list" id="products">
         <h2 className="section-title">
           {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -173,5 +190,6 @@ const ProductListing = () => {
 };
 
 export default ProductListing;
+
 
 

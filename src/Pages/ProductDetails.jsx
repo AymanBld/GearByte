@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
+import Toast from "../components/Toast";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./ProductDetails.css";
@@ -9,6 +10,7 @@ const ProductDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
   const product = location.state?.product;
   const imagesArray = product.images || [product.image];
@@ -32,10 +34,18 @@ const ProductDetails = () => {
         throw new Error('Failed to add to cart');
       }
 
-      alert('Product added to cart successfully!');
+      setToast({
+        show: true,
+        message: 'Product added to cart successfully!',
+        type: 'success'
+      });
     } catch (error) {
       console.error('Error adding to cart:', error);
-      alert('Failed to add product to cart');
+      setToast({
+        show: true,
+        message: 'Failed to add product to cart',
+        type: 'error'
+      });
     }
   };
 
@@ -45,6 +55,13 @@ const ProductDetails = () => {
 
   return (
     <>
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
       <div className="product-detail-page">
         <button onClick={() => navigate(-1)} className="back-button">
           &larr; Back
