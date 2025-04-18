@@ -176,17 +176,20 @@ const CheckoutPage = () => {
                   </div>
 
                   {/* Totals */}
-                  <div className="summary-row">
-                    <span>Subtotal</span>
-                    <span>${calculateTotal().toFixed(2)}</span>
-                  </div>
-                  <div className="summary-row">
-                    <span>Shipping</span>
-                    <span>Free</span>
-                  </div>
-                  <div className="summary-total">
-                    <span>Total</span>
-                    <span className="total-amount">${calculateTotal().toFixed(2)}</span>
+                  <div className="order-summary">
+                    <h3>Order Summary</h3>
+                    <div className="summary-item">
+                      <span>Subtotal</span>
+                      <span>{calculateTotal().toFixed(2)} DA</span>
+                    </div>
+                    <div className="summary-item">
+                      <span>Shipping</span>
+                      <span>Free</span>
+                    </div>
+                    <div className="summary-item total">
+                      <span>Total</span>
+                      <span>{calculateTotal().toFixed(2)} DA</span>
+                    </div>
                   </div>
                 </div>
 

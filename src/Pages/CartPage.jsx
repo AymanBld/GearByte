@@ -107,7 +107,7 @@ const CartPage = () => {
                         <span>{item.product.name}</span>
                       </div>
                     </td>
-                    <td>${item.product.price}</td>
+                    <td>{item.product.price} DA</td>
                     <td>
                       <input
                         className="qty-input"
@@ -120,7 +120,7 @@ const CartPage = () => {
                         }
                       />
                     </td>
-                    <td>${item.subtotal}</td>
+                    <td>{item.subtotal} DA</td>
                     <td>
                       <button
                         className="delete-btn"
@@ -150,17 +150,19 @@ const CartPage = () => {
 
           <div className="cart-right">
             <h3 className="summary-title">Cart Total</h3>
-            <div className="summary-line">
-              <span>Subtotal</span>
-              <span>${calculateTotal()}</span>
-            </div>
-            <div className="summary-line">
-              <span>Shipping</span>
-              <span>Free</span>
-            </div>
-            <div className="summary-line total-line">
-              <strong>Total</strong>
-              <strong>${calculateTotal()}</strong>
+            <div className="cart-summary">
+              <div className="summary-row">
+                <span>Subtotal:</span>
+                <span>{calculateTotal()} DA</span>
+              </div>
+              <div className="summary-row">
+                <span>Shipping:</span>
+                <span>Free</span>
+              </div>
+              <div className="summary-row total">
+                <span>Total:</span>
+                <span>{calculateTotal()} DA</span>
+              </div>
             </div>
             <Link to="/checkout">
               <button className="checkout-btn" disabled={cartItems.length === 0}>

@@ -89,7 +89,12 @@ const ProductDetails = () => {
 
           <div className="product-detail-info">
             <h1 className="product-name">{product.name}</h1>
-            <p className="product-price">${product.price}</p>
+            <div className="price-container">
+              <span className="current-price">{product.price} DA</span>
+              {product.original_price && (
+                <span className="original-price">{product.original_price} DA</span>
+              )}
+            </div>
             <p className="product-description">{product.description}</p>
 
             <div className="quantity-selector">

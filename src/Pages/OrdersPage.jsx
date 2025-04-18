@@ -86,6 +86,19 @@ const OrdersPage = () => {
                       </span>
                     </div>
                   </div>
+                  <div className="order-summary">
+                    <div className="order-total">
+                      <span>Total:</span>
+                      <span>{order.total} DA</span>
+                    </div>
+                    {order.items.map(item => (
+                      <div key={item.id} className="order-item">
+                        <span>{item.product_name}</span>
+                        <span>{item.quantity} × {item.price} DA</span>
+                        <span>{item.subtotal} DA</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
@@ -99,5 +112,6 @@ const OrdersPage = () => {
 };
 
 export default OrdersPage;
+
 
 
