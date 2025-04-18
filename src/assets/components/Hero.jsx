@@ -11,7 +11,7 @@ const Hero = () => {
   };
 
   const handleRentNow = () => {
-    navigate("/rentservice");
+    navigate("/rentpcs");  // Updated to go to RentService page
   };
 
   return (

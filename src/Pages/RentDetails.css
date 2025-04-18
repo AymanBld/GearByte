@@ -1,110 +1,315 @@
 .rent-details-page {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
 .rent-details-back-button {
-  margin-bottom: 1.5rem;
-  padding: 0.7rem 1.4rem;
-  background-color: #ea3c3c;
-  color: #fff;
+  background: none;
   border: none;
-  border-radius: 4px;
+  color: #333;
+  font-size: 1.1rem;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.3s ease;
 }
 
 .rent-details-back-button:hover {
-  background-color: #c63232;
+  color: #ea3c3c;
 }
 
-.rent-details-top {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-bottom: 2rem;
+.rent-details-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.rent-details-left {
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
 }
 
 .rent-details-images {
-  flex: 1;
-  min-width: 300px;
-  max-width: 500px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .rent-details-main-image {
   width: 100%;
-  height: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  height: 400px;
+  object-fit: contain;
+  border-radius: 8px;
   margin-bottom: 1rem;
 }
 
 .rent-details-thumbnail-row {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
 }
 
 .rent-details-thumbnail {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
+  border-radius: 6px;
   cursor: pointer;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: border-color 0.3s ease;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .rent-details-thumbnail.selected {
   border-color: #ea3c3c;
 }
 
-.rent-details-info {
-  flex: 1;
-  min-width: 300px;
-  max-width: 600px;
-  text-align: left;
-}
-
-.rent-details-name {
-  font-size: 1.8rem;
-  margin: 0 0 0.5rem 0;
-}
-
-.rent-details-price {
-  font-size: 1.5rem;
-  color: #ea3c3c;
-  margin: 1rem 0;
-  font-weight: bold;
-}
-
-.rent-details-description {
-  line-height: 1.5;
+.rent-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.5rem;
 }
 
-.rent-details-rent-now-btn {
-  padding: 0.7rem 1.4rem;
-  background-color: #ea3c3c;
-  color: #fff;
+.rent-details-name {
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-badge.available {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.status-badge.rented {
+  background-color: #fce8e6;
+  color: #d93025;
+}
+
+.status-badge.unavailable {
+  background-color: #f8d7da;
+  color: #842029;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #f5c2c7;
+}
+
+.rent-details-pricing {
+  margin-bottom: 2rem;
+}
+
+.price-tag {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.currency {
+  font-size: 1.5rem;
+  color: #ea3c3c;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ea3c3c;
+}
+
+.period {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-left: 1rem;
+}
+
+.rent-details-description {
+  margin-bottom: 2rem;
+}
+
+.rent-details-description h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.rent-details-description p {
+  line-height: 1.6;
+  color: #666;
+}
+
+.rent-details-specs {
+  margin-bottom: 2rem;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.spec-item i {
+  font-size: 1.5rem;
+  color: #ea3c3c;
+}
+
+.spec-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.spec-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.features-list i {
+  color: #ea3c3c;
+}
+
+.rent-details-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.rent-now-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  background-color: var(--main-color);
+  color: white;
   cursor: pointer;
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   transition: background-color 0.3s ease;
 }
 
-.rent-details-rent-now-btn:hover {
-  background-color: #c63232;
+.rent-now-btn:hover {
+  background-color: var(--button-hover);
+}
+
+.rent-now-btn.unavailable {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.rent-now-btn.unavailable:hover {
+  background-color: #6c757d;
+}
+
+.rent-details-info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.info-card {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.info-card i {
+  font-size: 2rem;
+  color: #ea3c3c;
+  margin-bottom: 1rem;
+}
+
+.info-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.info-card p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1024px) {
+  .rent-details-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .rent-details-left {
+    position: static;
+  }
 }
 
 @media (max-width: 768px) {
-  .rent-details-top {
+  .rent-details-page {
+    padding: 1rem;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .rent-details-actions {
     flex-direction: column;
   }
-  .rent-details-images,
-  .rent-details-info {
-    max-width: 100%;
+  
+  .rent-details-name {
+    font-size: 1.5rem;
   }
 }

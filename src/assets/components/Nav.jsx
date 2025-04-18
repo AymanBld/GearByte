@@ -97,8 +97,7 @@ const Nav = () => {
   const defaultColor = "var(--text-color)";
 
   const isHomeActive = location.pathname === "/";
-  const isRentActive =
-    location.pathname === "/rentservice" ||
+  const isRentActive = location.pathname === "/rentpcs" || 
     location.pathname === "/rentlisting" ||
     location.pathname.startsWith("/rentdetails");
 
@@ -153,7 +152,7 @@ const Nav = () => {
             </li>
             <li>
               <Link
-                to="/rentservice"
+                to="/rentpcs"
                 style={{ color: isRentActive ? activeColor : defaultColor }}
               >
                 RentPcs

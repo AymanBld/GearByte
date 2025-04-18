@@ -13,8 +13,8 @@ import SignupPage from "./Pages/SignupPage";
 import ProductListing from "./Pages/ProductListing";
 import CartPage from "./Pages/CartPage";
 import OurProducts from "./Pages/OurProducts";
-import RentService from "./Pages/RentService";
-import RentListing from "./Pages/RentListing";
+import RentService from './Pages/RentService';
+import RentListing from './Pages/RentListing';
 import ProductDetails from "./Pages/ProductDetails";
 import RentDetails from "./Pages/RentDetails";
 import CheckoutPage from "./Pages/CheckoutPage";
@@ -48,7 +48,7 @@ const App = () => {
         <Route path="/:category" element={<ProductListing />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/ourproducts" element={<OurProducts />} />
-        <Route path="/rentservice" element={<RentService />} />
+        <Route path="/rentpcs" element={<RentService />} />
         <Route path="/rentlisting" element={<RentListing />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/rentdetails/:id" element={<RentDetails />} />
