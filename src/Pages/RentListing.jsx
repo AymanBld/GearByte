@@ -62,10 +62,7 @@ const RentListing = () => {
   return (
     <>
       <section className="rent-list">
-        <h2 className="section-title">
-          Available for Rent{" "}
-          <img src={rentIcon} alt="Rent Icon" className="rent-icon" />
-        </h2>
+        <h2 className="section-title">Available PCs for Rent</h2>
 
         {rentItems.length === 0 ? (
           <div className="no-items">
@@ -85,8 +82,8 @@ const RentListing = () => {
                     processor: item.cpu,
                     ram: `${item.ram}GB`,
                     storage: `${item.storage}GB`,
-                    graphics: item.graphics,
-                    display: item.display,
+                    graphics: item.gpu,
+                    display: `${item.display_size}"`,
                     connectivity: item.connectivity,
                     status: item.is_available ? 'Available' : 'Unavailable',
                     price: item.price_per_day,
@@ -95,25 +92,20 @@ const RentListing = () => {
                   }}}
                   style={{ textDecoration: "none", color: "inherit" }}
                 >
-                  <img 
-                    src={item.image || '/default-pc.jpg'} 
-                    alt={item.name} 
-                    className="rent-image" 
-                  />
-                  <h3 className="rent-name">{item.name}</h3>
-                  <div className="rent-specs">
-                    <p>CPU: {item.cpu}</p>
-                    <p>RAM: {item.ram}GB</p>
-                    <p>Storage: {item.storage}GB</p>
+                  <div className="rent-image-container">
+                    <img 
+                      src={item.image || '/default-pc.jpg'} 
+                      alt={item.name} 
+                      className="rent-image" 
+                    />
+                    <span className={`availability-indicator ${item.is_available ? 'available' : 'unavailable'}`}>
+                      {item.is_available ? 'Available' : 'Unavailable'}
+                    </span>
                   </div>
-                  <p className="rent-price">${item.price_per_day}/day</p>
+                  <h3 className="rent-name">{item.name}</h3>
+                  <p className="rent-description">{item.description}</p>
+                  <p className="rent-price">{item.price_per_day} DA/day</p>
                 </Link>
-                <button 
-                  className="rent-now-btn"
-                  disabled={!item.is_available}
-                >
-                  {item.is_available ? 'Rent Now' : 'Currently Unavailable'}
-                </button>
               </div>
             ))}
           </div>
