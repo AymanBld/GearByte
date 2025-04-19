@@ -7,13 +7,19 @@ import "./CartPage.css";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [localCartItems, setLocalCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     fetchCart();
   }, []);
+
+  useEffect(() => {
+    setLocalCartItems(cartItems);
+  }, [cartItems]);
 
   const fetchCart = async () => {
     try {
@@ -30,17 +36,46 @@ const CartPage = () => {
     }
   };
 
-  const handleQuantityChange = async (cartItemId, newQuantity) => {
+  const handleQuantityChange = (cartItemId, newQuantity) => {
+    setLocalCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === cartItemId
+          ? {
+              ...item,
+              quantity: Math.max(1, Math.min(newQuantity, item.product.stock)),
+              subtotal: (Math.max(1, Math.min(newQuantity, item.product.stock)) * item.product.price).toFixed(2)
+            }
+          : item
+      )
+    );
+    setHasChanges(true);
+  };
+
+  const updateCart = async () => {
     try {
-      const response = await fetchWithAuth(`/Store/cart/${cartItemId}/`, {
-        method: 'PATCH',
-        body: JSON.stringify({ quantity: Math.max(1, newQuantity) }),
-      });
-      
-      if (!response.ok) throw new Error('Failed to update quantity');
+      const updates = localCartItems.map(item => ({
+        cartItemId: item.id,
+        quantity: item.quantity
+      }));
+
+      const updatePromises = updates.map(({ cartItemId, quantity }) =>
+        fetchWithAuth(`/Store/cart/${cartItemId}/`, {
+          method: 'PATCH',
+          body: JSON.stringify({ quantity })
+        })
+      );
+
+      const results = await Promise.all(updatePromises);
+      const hasError = results.some(response => !response.ok);
+
+      if (hasError) {
+        throw new Error('Failed to update some items');
+      }
+
       await fetchCart(); // Refresh cart data
+      setHasChanges(false);
     } catch (err) {
-      console.error('Failed to update quantity:', err);
+      console.error('Failed to update cart:', err);
     }
   };
 
@@ -51,7 +86,7 @@ const CartPage = () => {
       });
       
       if (!response.ok) throw new Error('Failed to remove item');
-      await fetchCart(); // Refresh cart data
+      await fetchCart();
     } catch (err) {
       console.error('Failed to remove item:', err);
     }
@@ -72,7 +107,7 @@ const CartPage = () => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
+    return localCartItems.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
   };
 
   if (loading) return <div className="cart-section">Loading...</div>;
@@ -81,7 +116,14 @@ const CartPage = () => {
   return (
     <>
       <section className="cart-section">
-        <h2 className="cart-title">Cart</h2>
+        <div className="cart-header">
+          <h2 className="cart-title">Cart</h2>
+          <Link to="/ourproducts">
+            <button className="return-btn">
+              <i className='bx bx-arrow-back'></i> Return to Shop
+            </button>
+          </Link>
+        </div>
         <div className="cart-container">
           <div className="cart-left">
             <table className="cart-table">
@@ -95,7 +137,7 @@ const CartPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {cartItems.map((item) => (
+                {localCartItems.map((item) => (
                   <tr key={item.id}>
                     <td>
                       <div className="product-cell">
@@ -134,15 +176,20 @@ const CartPage = () => {
               </tbody>
             </table>
             <div className="cart-buttons">
-              <Link to="/ourproducts">
-                <button className="return-btn">Return to Shop</button>
-              </Link>
-              {cartItems.length > 0 && (
+              {localCartItems.length > 0 && (
                 <button 
                   className="clear-cart-btn"
                   onClick={() => setShowClearConfirm(true)}
                 >
                   <i className='bx bx-trash-alt'></i> Clear Cart
+                </button>
+              )}
+              {hasChanges && (
+                <button 
+                  className="update-cart-btn"
+                  onClick={updateCart}
+                >
+                  <i className='bx bx-refresh'></i> Update Cart
                 </button>
               )}
             </div>
@@ -165,7 +212,7 @@ const CartPage = () => {
               </div>
             </div>
             <Link to="/checkout">
-              <button className="checkout-btn" disabled={cartItems.length === 0}>
+              <button className="checkout-btn" disabled={localCartItems.length === 0}>
                 Proceed to Checkout
               </button>
             </Link>
