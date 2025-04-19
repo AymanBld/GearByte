@@ -158,9 +158,11 @@ const ProductListing = () => {
                     alt={product.name} 
                     className="product-image" 
                   />
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-price">{product.price} DA</p>
-                  <p className="product-stock">In Stock: {product.stock}</p>
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-description">{product.description}</p>
+                    <p className="product-price">{product.price}</p>
+                  </div>
                 </Link>
                 <button 
                   className="add-to-cart" 
@@ -190,6 +192,8 @@ const ProductListing = () => {
 };
 
 export default ProductListing;
+
+
 
 
 
