@@ -121,9 +121,14 @@ const AddressesPage = () => {
             <button 
               className="add-address-btn"
               onClick={() => {
-                setShowAddForm(!showAddForm);
+                setShowAddForm(true); 
                 setEditingAddress(null);
-                resetForm();
+                setFormData({
+                  country: '',
+                  city: '',
+                  street: '',
+                  postal_code: ''
+                });
               }}
             >
               <i className='bx bx-plus'></i> Add New Address
@@ -273,4 +278,5 @@ const AddressesPage = () => {
 };
 
 export default AddressesPage;
+
 
