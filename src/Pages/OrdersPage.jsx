@@ -16,14 +16,16 @@ const OrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
+      setLoading(true);
       const response = await fetchWithAuth('/Store/order/');
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data.results); // Update to use data.results
-      } else {
+      if (!response.ok) {
         throw new Error('Failed to fetch orders');
       }
+      const data = await response.json();
+      // Handle both array and paginated response formats
+      setOrders(Array.isArray(data) ? data : (data.results || []));
     } catch (error) {
+      console.error('Error fetching orders:', error);
       setError('Failed to load orders');
     } finally {
       setLoading(false);
@@ -37,19 +39,40 @@ const OrdersPage = () => {
       'delivered': 'status-delivered',
       'cancelled': 'status-cancelled'
     };
-    return statusColors[status.toLowerCase()] || 'status-default';
+    return statusColors[status?.toLowerCase()] || 'status-default';
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Invalid Date';
+    }
   };
 
-  if (loading) return <div className="orders-loading">Loading orders...</div>;
-  if (error) return <div className="orders-error">{error}</div>;
+  if (loading) {
+    return (
+      <div className="orders-page">
+        <div className="orders-container">
+          <div className="orders-loading">Loading orders...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="orders-page">
+        <div className="orders-container">
+          <div className="orders-error">{error}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -57,7 +80,7 @@ const OrdersPage = () => {
         <div className="orders-container">
           <h2>My Orders</h2>
           
-          {orders.length === 0 ? (
+          {!orders || orders.length === 0 ? (
             <div className="no-orders">
               <i className='bx bx-package'></i>
               <p>You haven't placed any orders yet</p>
@@ -76,28 +99,32 @@ const OrdersPage = () => {
                       </div>
                       <div className="order-amount">
                         <i className='bx bx-money'></i>
-                        {order.total_price} DZD
+                        {order.total_price || order.total} DA
                       </div>
                     </div>
                     <div className="order-right">
                       <span className={`order-status ${getStatusColor(order.status)}`}>
                         <i className='bx bx-package'></i>
-                        {order.status}
+                        {order.status || 'Processing'}
                       </span>
                     </div>
                   </div>
                   <div className="order-summary">
-                    <div className="order-total">
-                      <span>Total:</span>
-                      <span>{order.total} DA</span>
-                    </div>
-                    {order.items.map(item => (
-                      <div key={item.id} className="order-item">
-                        <span>{item.product_name}</span>
-                        <span>{item.quantity} × {item.price} DA</span>
-                        <span>{item.subtotal} DA</span>
-                      </div>
-                    ))}
+                    {order.items && order.items.length > 0 && (
+                      <>
+                        {order.items.map(item => (
+                          <div key={item.id} className="order-item">
+                            <span>{item.product_name || item.name}</span>
+                            <span>{item.quantity} × {item.price} DA</span>
+                            <span>{(item.quantity * item.price).toFixed(2)} DA</span>
+                          </div>
+                        ))}
+                        <div className="order-total">
+                          <span>Total Amount</span>
+                          <span>{order.total_price || order.total} DA</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               ))}
@@ -112,6 +139,8 @@ const OrdersPage = () => {
 };
 
 export default OrdersPage;
+
+
 
 
 
