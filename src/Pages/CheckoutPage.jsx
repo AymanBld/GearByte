@@ -90,13 +90,13 @@ const CheckoutPage = () => {
                 <div className="checkout-section">
                   <div className="form-group">
                     <label htmlFor="phone">Phone</label>
-                    <div className="input-wrapper">
+                    <div className={`input-wrapper ${errors.phone ? 'error' : ''}`}>
                       <i className='bx bx-phone'></i>
                       <input
                         type="tel"
                         id="phone"
                         name="phone"
-                        value={userInfo.phone || ''} // Added fallback to empty string
+                        value={userInfo.phone || ''}
                         onChange={(e) => setUserInfo(prev => ({...prev, phone: e.target.value}))}
                         required
                         placeholder="Enter your phone number"
@@ -165,10 +165,10 @@ const CheckoutPage = () => {
                     {cartItems.map(item => (
                       <div key={item.id} className="product-summary-row">
                         <div className="product-summary-info">
-                          <span className="product-quantity">x{item.quantity}</span>
+                          <span className="product-quantity">×{item.quantity}</span>
                           <span className="product-name">{item.product.name}</span>
                           <span className="product-price">
-                            ${(item.product.price * item.quantity).toFixed(2)}
+                            {(item.product.price * item.quantity).toFixed(2)} DA
                           </span>
                         </div>
                       </div>
@@ -177,7 +177,6 @@ const CheckoutPage = () => {
 
                   {/* Totals */}
                   <div className="order-summary">
-                    <h3>Order Summary</h3>
                     <div className="summary-item">
                       <span>Subtotal</span>
                       <span>{calculateTotal().toFixed(2)} DA</span>
