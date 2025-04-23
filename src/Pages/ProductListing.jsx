@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { fetchApi, fetchWithAuth } from "../utils/fetchWithAuth";
 import Toast from "../components/Toast";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
@@ -26,7 +26,7 @@ const ProductListing = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:8000/Store/product/search/?category=${category}`);
+      const response = await fetchApi(`Store/product/search/?category=${category}`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -84,7 +84,7 @@ const ProductListing = () => {
       setLoading(true);
       // Ensure we're using the search endpoint for pagination as well
       const modifiedUrl = url.replace('/Store/product/', '/Store/product/search/');
-      const response = await fetch(modifiedUrl);
+      const response = await fetchApi(modifiedUrl);
       if (!response.ok) {
         throw new Error('Failed to fetch page');
       }

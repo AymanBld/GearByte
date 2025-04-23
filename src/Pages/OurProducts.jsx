@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { fetchApi } from "../utils/fetchWithAuth";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./OurProducts.css";
@@ -16,7 +17,7 @@ const OurProducts = () => {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/Store/category/');
+      const response = await fetchApi('Store/category/');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { fetchApi } from "../../utils/fetchWithAuth";
 import "./Nav.css";
 
 const Nav = () => {
@@ -31,7 +32,7 @@ const Nav = () => {
   // Add this function to fetch username
   const fetchUsername = async () => {
     try {
-      const response = await fetch('http://localhost:8000/auth/user/', {
+      const response = await fetchApi('auth/user/', {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }
@@ -67,7 +68,7 @@ const Nav = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8000/Store/category/');
+      const response = await fetchApi('Store/category/');
       if (!response.ok) {
         throw new Error('Failed to fetch categories');
       }

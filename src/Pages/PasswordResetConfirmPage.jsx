@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { fetchApi } from "../utils/fetchWithAuth";
 
 const PasswordResetConfirmPage = () => {
   const { uid, token } = useParams();
@@ -32,7 +32,7 @@ const PasswordResetConfirmPage = () => {
     }
 
     try {
-      const response = await fetch('auth/password/reset/confirm/', {
+      const response = await fetchApi('auth/password/reset/confirm/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

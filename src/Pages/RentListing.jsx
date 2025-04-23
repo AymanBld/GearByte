@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { fetchApi } from "../utils/fetchWithAuth";
 import "./RentListing.css";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
@@ -22,7 +23,7 @@ const RentListing = () => {
   const fetchPCs = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8000/rental/pcs/');
+      const response = await fetchApi('rental/pcs/');
       if (!response.ok) {
         throw new Error('Failed to fetch PCs');
       }

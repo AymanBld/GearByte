@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchApi } from "../utils/fetchWithAuth";
 import "./LoginPage.css";
 import { Link } from "react-router-dom";
 import AlertModal from "./AlertModal";
@@ -66,7 +67,7 @@ function LoginPage() {
       };
 
       // Make API call here
-      const response = await fetch('http://localhost:8000/auth/login/', {
+      const response = await fetchApi('auth/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
