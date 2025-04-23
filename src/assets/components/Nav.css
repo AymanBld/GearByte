@@ -94,55 +94,88 @@ button:hover {
 .nav-links {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 60px;
 }
 
-.nav-links a {
+.nav-item {
   font-size: 1rem;
-  color: var(--text-color);
   font-weight: 600;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  text-decoration: none;
 }
 
-.nav-links a:hover {
-  color: var(--main-color);
+.nav-item:hover {
+  color: var(--main-color) !important;
 }
 
+/* Dropdown styles */
 .dropdown {
   position: relative;
 }
 
-.dropdown a {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-}
-
 .dropdown-menu {
-  display: none;
   position: absolute;
   top: 100%;
   left: 0;
   background-color: white;
-  min-width: 150px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding: 10px 0;
-}
-
-.dropdown-menu a {
-  display: block;
-  padding: 8px 15px;
-  color: black;
-}
-
-.dropdown-menu a:hover {
-  background-color: #f0f0f0;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 8px 0;
+  display: none;
+  z-index: 1000;
 }
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+  color: var(--main-color) !important;
+  background-color: #f8f9fa;
+}
+
+/* Cart icon styling */
+.cart-container {
+  position: relative;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cart-container i {
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+
+.cart-container:hover i {
+  color: var(--main-color) !important;
+}
+
+@media (max-width: 824px) {
+  .nav-links {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    width: 100%;
+  }
 }
 .user-avatar-container {
   position: relative;
@@ -175,9 +208,9 @@ button:hover {
   right: 0;
   margin-top: 10px;
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 220px;
+  min-width: 250px;
   z-index: 1000;
   overflow: hidden;
   animation: dropdownFade 0.2s ease;
@@ -189,6 +222,7 @@ button:hover {
   align-items: center;
   gap: 10px;
   background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .dropdown-header i {
@@ -196,16 +230,36 @@ button:hover {
   color: var(--main-color);
 }
 
-.dropdown-divider {
-  height: 1px;
-  background-color: #e9ecef;
-  margin: 8px 0;
+.dropdown-header span {
+  font-weight: 600;
+  color: #333;
 }
 
+/* Special styling for dashboard item */
+.dashboard-item {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 16px !important;
+}
+
+.dashboard-item i {
+  font-size: 20px;
+  color: var(--main-color) !important;
+}
+
+.dashboard-item span {
+  font-weight: 500;
+}
+
+.dashboard-item:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* Regular dropdown items */
 .dropdown-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 12px 16px;
   color: #333;
   text-decoration: none;
@@ -218,17 +272,36 @@ button:hover {
   font-size: 0.95rem;
 }
 
-/* Add !important to override any existing styles */
+.dropdown-item i {
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+}
+
 .dropdown-item:hover {
-  background-color: #f8f9fa !important;
-  color: var(--main-color) !important;
+  background-color: #f8f9fa;
+  color: var(--main-color);
 }
 
 .dropdown-item:hover i {
-  color: var(--main-color) !important;
+  color: var(--main-color);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 8px 0;
 }
 
 /* Special styling for logout item */
+.logout-item {
+  color: #dc3545;
+}
+
+.logout-item i {
+  color: #dc3545;
+}
+
 .logout-item:hover {
   background-color: #fff5f5 !important;
   color: #dc3545 !important;
@@ -355,4 +428,76 @@ button:hover {
     left: 10px;
     margin-top: 0;
   }
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog-content {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dialog-header i {
+  font-size: 24px;
+  color: #dc3545;
+}
+
+.dialog-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  border: 1px solid #dee2e6;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #6c757d;
+}
+
+.cancel-btn:hover {
+  background: #f8f9fa;
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #dc3545;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #c82333;
 }
