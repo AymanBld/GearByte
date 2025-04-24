@@ -34,44 +34,56 @@ import Products from "./Pages/dashboard/Products";
 const App = () => {
   return (
     <Router>
-      <Nav />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Hero />
-              <OurService />
-              <Reviews />
-              <Contactus />
-              <Footer />
-              <Copyright />
-            </>
-          }
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/:category" element={<ProductListing />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/ourproducts" element={<OurProducts />} />
-        <Route path="/rentpcs" element={<RentService />} />
-        <Route path="/rentlisting" element={<RentListing />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/rentdetails/:id" element={<RentDetails />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/orderconfirmation" element={<OrderConfirmationPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/orders" element={<OrdersPage />} />
-        <Route path="/addresses" element={<AddressesPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/auth/password/reset/confirm/:uid/:token" element={<PasswordResetConfirmPage />} />
-        
+        {/* Dashboard routes without Nav */}
         <Route path="/dashboard" element={<Layout />}>
           <Route index element={<DashboardPage />} />
+          <Route path="TasksManager" element={<TaskManager />} />
+          <Route path="Orders" element={<Orders />} />
           <Route path="products" element={<Products />} />
-          <Route path="add-product" element={<AddProFunc />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="tasks" element={<TaskManager />} />
+          <Route path="new-product" element={<AddProFunc />} />
+          <Route path="logout" element={<h1 className="title">Log Out</h1>} />
+        </Route>
+
+
+        {/* Main routes with Nav */}
+        <Route
+          element={
+            <>
+              <Nav />
+              <Outlet />
+            </>
+          }
+        >
+          <Route
+            path="/"
+            element={
+              <>
+                <Hero />
+                <OurService />
+                <Reviews />
+                <Contactus />
+                <Footer />
+                <Copyright />
+              </>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/:category" element={<ProductListing />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/ourproducts" element={<OurProducts />} />
+          <Route path="/rentpcs" element={<RentService />} />
+          <Route path="/rentlisting" element={<RentListing />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/rentdetails/:id" element={<RentDetails />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orderconfirmation" element={<OrderConfirmationPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/addresses" element={<AddressesPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/auth/password/reset/confirm/:uid/:token" element={<PasswordResetConfirmPage />} />
         </Route>
       </Routes>
     </Router>
