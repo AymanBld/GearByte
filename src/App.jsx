@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 
 import Nav from "./assets/components/Nav";
 import Hero from "./assets/components/Hero";
@@ -24,6 +24,12 @@ import OrdersPage from "./Pages/OrdersPage";
 import AddressesPage from "./Pages/AddressesPage";
 import NotificationsPage from "./Pages/NotificationsPage";
 import PasswordResetConfirmPage from './Pages/PasswordResetConfirmPage';
+import Layout from "./Pages/dashboard/layout";
+import DashboardPage from "./Pages/dashboard/page";
+import AddProFunc from "./Pages/dashboard/AddProFunc";
+import Orders from "./Pages/dashboard/ord";
+import TaskManager from "./Pages/dashboard/Task";
+import Products from "./Pages/dashboard/Products";
 
 const App = () => {
   return (
@@ -59,6 +65,14 @@ const App = () => {
         <Route path="/addresses" element={<AddressesPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/auth/password/reset/confirm/:uid/:token" element={<PasswordResetConfirmPage />} />
+        
+        <Route path="/dashboard" element={<Layout />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="products" element={<Products />} />
+          <Route path="add-product" element={<AddProFunc />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="tasks" element={<TaskManager />} />
+        </Route>
       </Routes>
     </Router>
   );

@@ -1,1 +1,72 @@
 @import "tailwindcss";
+
+
+
+@layer base {
+    body {
+        @apply [scrollbar-color:_#cbd5e1_transparent] ;
+    }
+}
+
+
+.title {
+    @apply text-3xl font-semibold text-slate-900 ;
+}
+.sidebar-group {
+    @apply flex w-full flex-col gap-y-2;
+}
+.sidebar-group-title {
+    @apply overflow-hidden text-ellipsis text-sm font-medium text-slate-600 dark:text-slate-400;
+}
+
+.sidebar-item {
+    @apply flex h-[40px] w-full flex-shrink-0 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 hover:bg-blue-50;
+    &.active {
+        @apply  text-slate-50 bg-[#EA3C3C];
+    }
+}
+.btn-ghost {
+    @apply flex h-10 flex-shrink-0 items-center justify-center gap-x-2 rounded-lg p-2 text-slate-400 transition-colors hover:bg-blue-50 hover:text-slate-500  ;
+}
+.card {
+    @apply flex flex-col gap-y-4 rounded-lg border border-slate-300 bg-white p-4 ;
+}
+
+.card-header {
+    @apply flex items-center gap-x-2;
+}
+
+.card-title {
+    @apply font-medium text-slate-900 ;
+}
+
+.card-body {
+    @apply flex flex-col gap-y-2 rounded-lg p-4;
+}
+.table {
+    @apply h-full w-full text-slate-900 ;
+}
+
+.table-header {
+    @apply sticky top-0 bg-slate-200 transition-[background];
+}
+
+.table-row {
+    @apply border-b border-slate-300 ;
+}
+
+.table-head {
+    @apply h-12 px-4 text-start;
+}
+
+.table-cell {
+    @apply w-fit whitespace-nowrap p-4 font-medium;
+}
+.logout-link{
+    background-color: #5d2f2f;
+    color: white;
+}
+.logout-link:hover {
+    background-color: #fecaca !important; 
+    color: black!important;  
+  }
