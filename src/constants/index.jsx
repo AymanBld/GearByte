@@ -1,7 +1,6 @@
-import { PackageMinus } from "lucide-react";
-import {  Home, NotepadText, Package, PackagePlus, Settings, UserCheck , Users, LogOutIcon } from "lucide-react";
- import ProfileImage from "../assets/profile-image.jpg";
- import ProductImage from "../assets/profile-image.jpg";
+import { Home, Package, PackagePlus, Users } from "lucide-react";
+import ProfileImage from "../assets/profile-image.jpg";
+import ProductImage from "../assets/profile-image.jpg";
 
 export const navbarLinks = [
     {
@@ -10,13 +9,7 @@ export const navbarLinks = [
             {
                 label: "Dashboard",
                 icon: Home,
-                path: "/",
-            },
-           
-            {
-                label: "TasksManager",
-                icon: NotepadText,
-                path: "/TasksManager",
+                path: "/dashboard",
             },
         ],
     },
@@ -26,36 +19,22 @@ export const navbarLinks = [
             {
                 label: "Orders",
                 icon: Users,
-                path: "/orders",
+                path: "/dashboard/orders",
             },
-            
-           
         ],
     },
     {
         title: "Products",
         links: [
-            
             {
                 label: "New product",
                 icon: PackagePlus,
-                path: "/new-product",
+                path: "/dashboard/new-product",
             },
             {
                 label: "Products",
                 icon: Package,
-                path: "/products",
-            },
-           
-        ],
-    },
-    {
-        title: "Log Out",
-        links: [
-            {
-                label: "Log Out",
-                icon: LogOutIcon,
-                path: "/logout",
+                path: "/dashboard/products",
             },
         ],
     },

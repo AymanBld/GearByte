@@ -6,9 +6,8 @@ import { useState } from "react";
 import Layout from "./Pages/dashboard/layout";
 import Page from "./Pages/dashboard/page";
 import AddProduct from "./Pages/dashboard/AddPro";
-import Ord from "./Pages/dashboard/ord";
+import Orders from "./Pages/dashboard/orders";
 import Products from "./Pages/dashboard/Products";
-import TaskManager from "./Pages/dashboard/Task";
 
 import Nav from "./assets/components/Nav";
 import Hero from "./assets/components/Hero";
@@ -136,30 +135,10 @@ const App = () => {
       path: "/dashboard",
       element: <Layout />,
       children: [
-        {
-          index: true,
-          element: <Page />,
-        },
-        {
-          path: "tasks",
-          element: <TaskManager />,
-        },
-        {
-          path: "orders",
-          element: <Ord />,
-        },
-        {
-          path: "products",
-          element: <Products products={products} setProducts={setProducts} />,
-        },
-        {
-          path: "new-product",
-          element: <AddProduct addProduct={(newProduct) => setProducts((prev) => [...prev, newProduct])} />,
-        },
-        {
-          path: "logout",
-          element: <h1 className="title">Log Out</h1>,
-        },
+        {index: true, element: <Page /> },
+        {path: "orders", element: <Orders />},
+        {path: "products", element: <Products products={products} setProducts={setProducts} />},
+        {path: "new-product", element: <AddProduct addProduct={(newProduct) => setProducts((prev) => [...prev, newProduct])} />},
       ],
     },
   ]);

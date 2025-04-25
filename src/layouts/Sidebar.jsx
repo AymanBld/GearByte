@@ -95,11 +95,7 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
                             <NavLink
                                 key={link.label}
                                 to={link.path}
-                                className={cn("sidebar-item", collapsed && "md:w-[45px]",
-                                    link.path === "/logout" &&"logout-link"
-                                   
-
-                                )}
+                                className={cn("sidebar-item", collapsed && "md:w-[45px]")}
                             >
                                 <link.icon
                                     size={22}
