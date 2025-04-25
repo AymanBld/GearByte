@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:8000/';
 export const fetchWithAuth = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
   const headers = {
-    'Content-Type': 'application/json',
     Authorization: `Token ${token}`,
     ...options.headers,
   };
@@ -19,7 +18,6 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
 
 export const fetchApi = async (endpoint, options = {}) => {
   const headers = {
-    'Content-Type': 'application/json',
     ...options.headers,
   };
 
