@@ -1,5 +1,14 @@
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import { useState } from "react";
+
+// Dashboard imports
+import Layout from "./Pages/dashboard/layout";
+import Page from "./Pages/dashboard/page";
+import AddProduct from "./Pages/dashboard/AddPro";
+import Ord from "./Pages/dashboard/ord";
+import Products from "./Pages/dashboard/Products";
+import TaskManager from "./Pages/dashboard/Task";
 
 import Nav from "./assets/components/Nav";
 import Hero from "./assets/components/Hero";
@@ -24,70 +33,138 @@ import OrdersPage from "./Pages/OrdersPage";
 import AddressesPage from "./Pages/AddressesPage";
 import NotificationsPage from "./Pages/NotificationsPage";
 import PasswordResetConfirmPage from './Pages/PasswordResetConfirmPage';
-import Layout from "./Pages/dashboard/layout";
-import DashboardPage from "./Pages/dashboard/page";
-import AddProFunc from "./Pages/dashboard/AddProFunc";
-import Orders from "./Pages/dashboard/ord";
-import TaskManager from "./Pages/dashboard/Task";
-import Products from "./Pages/dashboard/Products";
+
+
+const NavLayout = () => {
+  return (
+    <>
+      <Nav />
+      <Outlet />
+    </>
+  );
+};
 
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        {/* Dashboard routes without Nav */}
-        <Route path="/dashboard" element={<Layout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="TasksManager" element={<TaskManager />} />
-          <Route path="Orders" element={<Orders />} />
-          <Route path="products" element={<Products />} />
-          <Route path="new-product" element={<AddProFunc />} />
-          <Route path="logout" element={<h1 className="title">Log Out</h1>} />
-        </Route>
-
-
-        {/* Main routes with Nav */}
-        <Route
-          element={
+  const [products, setProducts] = useState([]);
+  
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <NavLayout />,
+      children: [
+        {
+          index: true,
+          element: (
             <>
-              <Nav />
-              <Outlet />
+              <Hero />
+              <OurService />
+              <Reviews />
+              <Contactus />
+              <Footer />
+              <Copyright />
             </>
-          }
-        >
-          <Route
-            path="/"
-            element={
-              <>
-                <Hero />
-                <OurService />
-                <Reviews />
-                <Contactus />
-                <Footer />
-                <Copyright />
-              </>
-            }
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/:category" element={<ProductListing />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/ourproducts" element={<OurProducts />} />
-          <Route path="/rentpcs" element={<RentService />} />
-          <Route path="/rentlisting" element={<RentListing />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/rentdetails/:id" element={<RentDetails />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/orderconfirmation" element={<OrderConfirmationPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/addresses" element={<AddressesPage />} />
-          <Route path="/notifications" element={<NotificationsPage />} />
-          <Route path="/auth/password/reset/confirm/:uid/:token" element={<PasswordResetConfirmPage />} />
-        </Route>
-      </Routes>
-    </Router>
-  );
+          ),
+        },
+        {
+          path: "login",
+          element: <LoginPage />,
+        },
+        {
+          path: "signup",
+          element: <SignupPage />,
+        },
+        {
+          path: ":category",
+          element: <ProductListing />,
+        },
+        {
+          path: "cart",
+          element: <CartPage />,
+        },
+        {
+          path: "ourproducts",
+          element: <OurProducts />,
+        },
+        {
+          path: "rentpcs",
+          element: <RentService />,
+        },
+        {
+          path: "rentlisting",
+          element: <RentListing />,
+        },
+        {
+          path: "product/:id",
+          element: <ProductDetails />,
+        },
+        {
+          path: "rentdetails/:id",
+          element: <RentDetails />,
+        },
+        {
+          path: "checkout",
+          element: <CheckoutPage />,
+        },
+        {
+          path: "orderconfirmation",
+          element: <OrderConfirmationPage />,
+        },
+        {
+          path: "profile",
+          element: <ProfilePage />,
+        },
+        {
+          path: "orders",
+          element: <OrdersPage />,
+        },
+        {
+          path: "addresses",
+          element: <AddressesPage />,
+        },
+        {
+          path: "notifications",
+          element: <NotificationsPage />,
+        },
+        {
+          path: "auth/password/reset/confirm/:uid/:token",
+          element: <PasswordResetConfirmPage />,
+        },
+      ],
+    },
+    
+    {
+      path: "/dashboard",
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Page />,
+        },
+        {
+          path: "tasks",
+          element: <TaskManager />,
+        },
+        {
+          path: "orders",
+          element: <Ord />,
+        },
+        {
+          path: "products",
+          element: <Products products={products} setProducts={setProducts} />,
+        },
+        {
+          path: "new-product",
+          element: <AddProduct addProduct={(newProduct) => setProducts((prev) => [...prev, newProduct])} />,
+        },
+        {
+          path: "logout",
+          element: <h1 className="title">Log Out</h1>,
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;
