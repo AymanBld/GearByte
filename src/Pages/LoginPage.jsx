@@ -15,6 +15,7 @@ function LoginPage() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [isValid, setIsValid] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -59,6 +60,7 @@ function LoginPage() {
     }
 
     try {
+      setIsLoading(true);
       // Prepare the data for API
       const loginData = {
         email: emailRegex.test(trimmedInput) ? trimmedInput : '',  
@@ -100,6 +102,8 @@ function LoginPage() {
       console.error("Login error:", error);
       setAlertMessage(error.message || "Invalid credentials. Please try again.");
       setAlertOpen(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -144,18 +148,25 @@ function LoginPage() {
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-            />
+            <div className="input-container">
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                className="" // Add empty class to ensure consistent handling
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary">
-              Log In
+            <button 
+              type="submit" 
+              className="btn btn-primary"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Log In'}
             </button>
             <Link to="/forgot-password" className="forgot-password">
               Forgot Password?

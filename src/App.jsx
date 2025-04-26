@@ -34,7 +34,7 @@ import OrdersPage from "./Pages/OrdersPage";
 import AddressesPage from "./Pages/AddressesPage";
 import NotificationsPage from "./Pages/NotificationsPage";
 import PasswordResetConfirmPage from './Pages/PasswordResetConfirmPage';
-
+import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 
 const NavLayout = () => {
   return (
@@ -129,6 +129,10 @@ const App = () => {
         {
           path: "auth/password/reset/confirm/:uid/:token",
           element: <PasswordResetConfirmPage />,
+        },
+        {
+          path: "forgot-password",
+          element: <ForgotPasswordPage />,
         },
       ],
     },
