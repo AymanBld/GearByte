@@ -1,18 +1,14 @@
 import { Outlet } from "react-router-dom";
-
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { useClickOutside } from "../../Hooks/use-click-outside";
-
-import  {Sidebar}  from "../../layouts/Sidebar";
+import { Sidebar } from "../../layouts/Sidebar";
 import { Header } from "../../layouts/Header";
-
 import { cn } from "../../utils/cn";
 import { useEffect, useRef, useState } from "react";
 
 const Layout = () => {
     const isDesktopDevice = useMediaQuery("(min-width: 768px)");
     const [collapsed, setCollapsed] = useState(!isDesktopDevice);
-
     const sidebarRef = useRef(null);
 
     useEffect(() => {
@@ -36,15 +32,21 @@ const Layout = () => {
             <Sidebar
                 ref={sidebarRef}
                 collapsed={collapsed}
+                setCollapsed={setCollapsed}
             />
-            <div className={cn("transition-[margin] duration-300", collapsed ? "md:ml-[70px]" : "md:ml-[240px]")}>
-                <Header
-                    collapsed={collapsed}
-                    setCollapsed={setCollapsed}
+            <div 
+                className={cn(
+                    "transition-[margin] duration-300", 
+                    collapsed ? "md:ml-[70px]" : "md:ml-[240px]"
+                )}
+            >
+                <Header 
+                    collapsed={collapsed} 
+                    setCollapsed={setCollapsed} 
                 />
-                <div className="h-[calc(100vh-60px)] overflow-y-auto overflow-x-hidden p-6">
+                <main className="h-[calc(100vh-60px)] overflow-y-auto overflow-x-hidden p-6">
                     <Outlet />
-                </div>
+                </main>
             </div>
         </div>
     );

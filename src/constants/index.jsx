@@ -1,6 +1,4 @@
-import { Home, Package, PackagePlus, Users } from "lucide-react";
-import ProfileImage from "../assets/profile-image.jpg";
-import ProductImage from "../assets/profile-image.jpg";
+import { Home, Package, PackagePlus, Users, Monitor, MonitorUp } from "lucide-react";
 
 export const navbarLinks = [
     {
@@ -35,6 +33,21 @@ export const navbarLinks = [
                 label: "Products",
                 icon: Package,
                 path: "/dashboard/products",
+            },
+        ],
+    },
+    {
+        title: "Rental PCs",
+        links: [
+            {
+                label: "Add PC",
+                icon: MonitorUp,
+                path: "/dashboard/add-pc",
+            },
+            {
+                label: "All PCs",
+                icon: Monitor,
+                path: "/dashboard/rental-pcs",
             },
         ],
     },

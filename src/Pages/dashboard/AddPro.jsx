@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
-import Toast from "../../components/Toast"; // Make sure this path is correct
+import Toast from "../../components/Toast";
 import { fetchApi } from "../../utils/fetchWithAuth";
 
 const AddProduct = () => {
@@ -117,8 +117,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg">
-      {/* Show Toast notification */}
+    <div className="container mx-auto px-4 py-8">
       {toast.show && (
         <Toast
           message={toast.message}
@@ -127,119 +126,123 @@ const AddProduct = () => {
         />
       )}
 
-      <h2 className="text-2xl font-bold text-black mb-6 text-center">Add Product</h2>
-      
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-          {error}
-        </div>
-      )}
+      <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Add New Product</h2>
+        
+        {error && (
+          <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Name */}
-        <div>
-          <label className="block font-semibold text-gray-700 mb-1">Product Name</label>
-          <input 
-            type="text" 
-            name="name" 
-            value={product.name} 
-            onChange={handleChange} 
-            className="w-full p-3 border rounded-lg text-lg" 
-            required 
-          />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="block font-semibold text-gray-700 mb-1">Category</label>
-          <select 
-            name="category" 
-            value={product.category} 
-            onChange={handleChange} 
-            className="w-full p-3 border rounded-lg text-lg"
-            required
-          >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Price & Stock */}
-        <div className="grid grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Price ($)</label>
+            <label className="block text-lg font-semibold text-gray-700 mb-2">Product Name</label>
             <input 
-              type="number" 
-              name="price" 
-              value={product.price} 
+              type="text" 
+              name="name" 
+              value={product.name} 
               onChange={handleChange} 
-              step="0.01"
-              min="0"
-              className="w-full p-3 border rounded-lg text-lg" 
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all" 
               required 
+              placeholder="Enter product name"
             />
           </div>
+
+          {/* Category */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-1">Stock</label>
+            <label className="block text-lg font-semibold text-gray-700 mb-2">Category</label>
+            <select 
+              name="category" 
+              value={product.category} 
+              onChange={handleChange} 
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all appearance-none bg-white"
+              required
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className="block text-lg font-semibold text-gray-700 mb-2">Price (DA)</label>
+            <div className="relative">
+              <input 
+                type="number" 
+                name="price" 
+                value={product.price} 
+                onChange={handleChange} 
+                step="0.01"
+                min="0"
+                className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all pr-12" 
+                required 
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+
+          {/* Stock */}
+          <div>
+            <label className="block text-lg font-semibold text-gray-700 mb-2">Stock</label>
             <input 
               type="number" 
               name="stock" 
               value={product.stock} 
               onChange={handleChange} 
               min="0"
-              className="w-full p-3 border rounded-lg text-lg" 
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all" 
               required 
+              placeholder="Available quantity"
             />
           </div>
-        </div>
 
-        {/* Description */}
-        <div>
-          <label className="block font-semibold text-gray-700 mb-1">Description</label>
-          <textarea 
-            name="description" 
-            value={product.description} 
-            onChange={handleChange} 
-            rows="4" 
-            className="w-full p-3 border rounded-lg text-lg"
-            required
-          />
-        </div>
+          {/* Description */}
+          <div>
+            <label className="block text-lg font-semibold text-gray-700 mb-2">Description</label>
+            <textarea 
+              name="description" 
+              value={product.description} 
+              onChange={handleChange} 
+              rows="5" 
+              className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all resize-none"
+              required
+              placeholder="Enter product description"
+            />
+          </div>
 
-        {/* Image Upload */}
-        <div>
-          <label className="block font-semibold text-gray-700 mb-1">Product Image</label>
-          <label className="block w-full p-6 border-2 border-dashed rounded-lg text-center cursor-pointer hover:border-gray-400 transition-colors">
+          {/* Image Upload */}
+          <div>
+            <label className="block text-lg font-medium text-gray-700 mb-2">Image</label>
             <input 
               type="file" 
-              accept="image/*" 
-              onChange={handleImageChange} 
-              className="hidden" 
-              required
+              name="image"
+              onChange={handleImageChange}
+              className="w-full p-3 border-2 border-gray-300 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100 transition-all"
+              accept="image/*"
             />
-            <Upload className="mx-auto text-gray-500" size={28} />
-            <span className="text-gray-600 text-lg">Upload Image</span>
             {product.image && (
               <div className="mt-2 text-sm text-gray-500">
                 Selected file: {product.image.name}
               </div>
             )}
-          </label>
-        </div>
+          </div>
 
-        {/* Submit Button */}
-        <button 
-          type="submit" 
-          className="w-full p-3 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-gray-400"
-          disabled={loading}
-        >
-          {loading ? 'Adding Product...' : 'Add Product'}
-        </button>
-      </form>
+          {/* Submit Button */}
+          <button 
+            type="submit" 
+            className="w-full py-4 px-6 bg-red-600 text-white rounded-lg text-xl font-semibold hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed mt-8"
+            disabled={loading}
+          >
+            {loading ? 'Adding Product...' : 'Add Product'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

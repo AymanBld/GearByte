@@ -19,8 +19,8 @@ const Orders = () => {
 
   const statusColors = {
     pending: 'bg-[#fff3cd] text-[#856404]',
-    shipped: 'bg-[#d4edda] text-[#155724]',
-    delivered: 'bg-[#cce5ff] text-[#004085]',
+    shipped: 'bg-[#cce5ff] text-[#004085]',
+    delivered: 'bg-[#d4edda] text-[#155724]',
     cancelled: 'bg-[#f8d7da] text-[#721c24]',
   };
   
