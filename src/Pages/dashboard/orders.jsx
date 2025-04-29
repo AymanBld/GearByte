@@ -5,11 +5,14 @@ import { useClickOutside } from "../../Hooks/use-click-outside";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [selectedStatus, setSelectedStatus] = useState('');
   const modalRef = useRef(null);
+  
+  const statusOptions = ['pending', 'shipped', 'delivered', 'cancelled'];
 
   useClickOutside([modalRef], () => {
     if (selectedOrder) {
@@ -26,17 +29,23 @@ const Orders = () => {
   
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [selectedStatus]);
 
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithAuth('Store/order/');
+      let url = 'Store/order/';
+      
+      if (selectedStatus) {
+        url = `Store/order/?status=${selectedStatus}`;
+      }
+      
+      const response = await fetchWithAuth(url);
       if (!response.ok) {
         throw new Error('Failed to fetch orders');
       }
       const data = await response.json();
-      setOrders(data.results);
+      setOrders(data.results || data);
     } catch (err) {
       setError(err.message);
       setToast({
@@ -102,6 +111,33 @@ const Orders = () => {
       )}
 
       <h2 className="text-3xl font-bold text-black mb-6 text-center">Orders</h2>
+
+      <div className="mb-4">
+        <label htmlFor="status-filter" className="block text-sm font-medium text-gray-700 mb-1">
+          Filter by Status:
+        </label>
+        <div className="flex">
+          <select
+            id="status-filter"
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="w-full md:w-64 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#EA3C3C] focus:border-transparent"
+          >
+            <option value="">All Orders</option>
+            {statusOptions.map(status => (
+              <option key={status} value={status}>
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </option>
+            ))}
+          </select>
+          <button 
+            onClick={() => setSelectedStatus('')}
+            className="ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left bg-white shadow-md rounded-lg overflow-hidden">
