@@ -1,8 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { overviewData } from '../../constants';
-import { CreditCard, DollarSign, Package, PencilLine, Star, Trash, TrendingUp, Users } from "lucide-react";
-const page = () => {
+import { CreditCard, DollarSign, Package, Users, TrendingUp } from "lucide-react";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
+
+const Page = () => {
+  const [statistics, setStatistics] = useState({
+    total_products: 0,
+    total_orders: 0,
+    total_users: 0,
+    total_revenue: 0
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStatistics = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchWithAuth('Store/statistics/');
+        if (!response.ok) {
+          throw new Error('Failed to fetch statistics');
+        }
+        const data = await response.json();
+        setStatistics(data);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching statistics:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStatistics();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-600 p-4">
+        Error: {error}
+      </div>
+    );
+  }
+
   return (
    <>
   <div className="flex flex-col gap-y-4">
@@ -15,12 +63,8 @@ const page = () => {
                 </div>
                 <p className="card-title">Total Products</p>
             </div>
-            <div className="card-body bg-slate-100  ">
-                <p className="text-3xl font-bold text-slate-900">87</p>
-                <span className="flex w-fit items-center gap-x-2 rounded-full border border-blue-500 px-2 py-1 font-medium text-blue-500 dark:border-blue-600 dark:text-blue-600">
-                    <TrendingUp size={18} />
-                    25%
-                </span>
+            <div className="card-body bg-slate-100 flex justify-center items-center">
+                <p className="text-3xl font-bold text-slate-900">{statistics.total_products}</p>
             </div>
         </div>
         <div className="card">
@@ -28,14 +72,12 @@ const page = () => {
                 <div className="rounded-lg bg-blue-500/20 p-2 text-blue-500 transition-colors dark:bg-blue-600/20 dark:text-blue-600">
                     <DollarSign size={26} />
                 </div>
-                <p className="card-title">Total Paid Orders</p>
+                <p className="card-title">Total Revenue</p>
             </div>
-            <div className="card-body bg-slate-100 ">
-                <p className="text-3xl font-bold text-slate-900 ">12300DZ</p>
-                <span className="flex w-fit items-center gap-x-2 rounded-full border border-blue-500 px-2 py-1 font-medium text-blue-500 dark:border-blue-600 dark:text-blue-600">
-                    <TrendingUp size={18} />
-                    12%
-                </span>
+            <div className="card-body bg-slate-100 flex justify-center items-center">
+                <p className="text-3xl font-bold text-slate-900">
+                    {statistics.total_revenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} DZD
+                </p>
             </div>
         </div>
         <div className="card">
@@ -45,12 +87,8 @@ const page = () => {
                 </div>
                 <p className="card-title">Total Customers</p>
             </div>
-            <div className="card-body bg-slate-100 ">
-                <p className="text-3xl font-bold text-slate-900 ">54,00</p>
-                <span className="flex w-fit items-center gap-x-2 rounded-full border border-blue-500 px-2 py-1 font-medium text-blue-500 dark:border-blue-600 dark:text-blue-600">
-                    <TrendingUp size={18} />
-                    15%
-                </span>
+            <div className="card-body bg-slate-100 flex justify-center items-center">
+                <p className="text-3xl font-bold text-slate-900">{statistics.total_users}</p>
             </div>
         </div>
         <div className="card">
@@ -58,14 +96,10 @@ const page = () => {
                 <div className="rounded-lg bg-blue-500/20 p-2 text-blue-500 transition-colors dark:bg-blue-600/20 dark:text-blue-600">
                     <CreditCard size={26} />
                 </div>
-                <p className="card-title">Sales</p>
+                <p className="card-title">Total Orders</p>
             </div>
-            <div className="card-body bg-slate-100">
-                <p className="text-3xl font-bold text-slate-900">110,00</p>
-                <span className="flex w-fit items-center gap-x-2 rounded-full border border-blue-500 px-2 py-1 font-medium text-blue-500 dark:border-blue-600 dark:text-blue-600">
-                    <TrendingUp size={18} />
-                    19%
-                </span>
+            <div className="card-body bg-slate-100 flex justify-center items-center">
+                <p className="text-3xl font-bold text-slate-900">{statistics.total_orders}</p>
             </div>
         </div>
     </div>
@@ -145,4 +179,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
