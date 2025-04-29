@@ -1,4 +1,4 @@
-import { Home, Package, PackagePlus, Users, Monitor, MonitorUp } from "lucide-react";
+import { Home, Package, PackagePlus, Users, Monitor, MonitorUp, FolderTree } from "lucide-react";
 
 export const navbarLinks = [
     {
@@ -33,6 +33,11 @@ export const navbarLinks = [
                 label: "Products",
                 icon: Package,
                 path: "/dashboard/products",
+            },
+            {
+                label: "Categories",
+                icon: FolderTree,
+                path: "/dashboard/categories",
             },
         ],
     },

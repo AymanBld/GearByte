@@ -10,6 +10,7 @@ import Orders from "./Pages/dashboard/orders";
 import Products from "./Pages/dashboard/Products";
 import RentalPCs from "./Pages/dashboard/RentalPCs";
 import AddPC from "./Pages/dashboard/AddPC";
+import Categories from "./Pages/dashboard/Categories";
 
 import Nav from "./assets/components/Nav";
 import Hero from "./assets/components/Hero";
@@ -145,6 +146,7 @@ const App = () => {
         {path: "orders", element: <Orders />},
         {path: "products", element: <Products products={products} setProducts={setProducts} />},
         {path: "new-product", element: <AddProduct addProduct={(newProduct) => setProducts((prev) => [...prev, newProduct])} />},
+        {path: "categories", element: <Categories />},
         {path: "rental-pcs", element: <RentalPCs />},
         {path: "add-pc", element: <AddPC />},
       ],
