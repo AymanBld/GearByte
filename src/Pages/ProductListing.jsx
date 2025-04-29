@@ -16,7 +16,7 @@ const ProductListing = () => {
     previous: null
   });
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
-  const { category } = useParams(); // Updated parameter name
+  const { category } = useParams();
 
   useEffect(() => {
     fetchProducts();
@@ -26,7 +26,7 @@ const ProductListing = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetchApi(`Store/product/search/?category=${category}`);
+      const response = await fetchApi(`Store/product/?category=${category}`);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -34,7 +34,7 @@ const ProductListing = () => {
       
       setPagination({
         count: data.count,
-        next: data.next,
+        next: data.next, 
         previous: data.previous
       });
 

@@ -12,6 +12,7 @@ const Products = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [selectedCategory, setSelectedCategory] = useState('');
   const modalRef = useRef(null);
 
   useClickOutside([modalRef], () => {
@@ -21,14 +22,23 @@ const Products = () => {
   });
 
   useEffect(() => {
-    fetchProducts();
-    fetchCategories(); // Add this to fetch categories when component mounts
+    fetchCategories();
   }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [selectedCategory]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithAuth('Store/product/');
+      let url = 'Store/product/';
+      
+      if (selectedCategory) {
+        url = `Store/product/?category=${selectedCategory}`;
+      }
+      
+      const response = await fetchWithAuth(url);
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -205,6 +215,33 @@ const Products = () => {
       )}
 
       <h2 className="text-3xl font-bold text-black mb-6 text-center">Our Products</h2>
+
+      <div className="mb-4">
+        <label htmlFor="category-filter" className="block text-sm font-medium text-gray-700 mb-1">
+          Filter by Category:
+        </label>
+        <div className="flex">
+          <select
+            id="category-filter"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full md:w-64 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#EA3C3C] focus:border-transparent"
+          >
+            <option value="">All Categories</option>
+            {categories.map(category => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <button 
+            onClick={() => setSelectedCategory('')}
+            className="ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none"
+          >
+            Reset
+          </button>
+        </div>
+      </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left bg-white shadow-md rounded-lg overflow-hidden">
