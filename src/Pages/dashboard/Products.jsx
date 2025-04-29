@@ -5,6 +5,7 @@ import { useClickOutside } from "../../Hooks/use-click-outside";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +13,6 @@ const Products = () => {
   const [editedProduct, setEditedProduct] = useState(null);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
   const modalRef = useRef(null);
-  const [categories, setCategories] = useState([]);
 
   useClickOutside([modalRef], () => {
     if (selectedProduct && !isEditing) {
@@ -90,7 +90,7 @@ const Products = () => {
     setIsEditing(true);
     setEditedProduct({
       ...selectedProduct,
-      category: selectedProduct.category // The category ID should already be a number from the API
+      category: selectedProduct.category.id
     });
   };
 
@@ -119,25 +119,23 @@ const Products = () => {
     try {
       const formData = new FormData();
       
-      // Only append image if it's a new file
       if (editedProduct.image instanceof File) {
         formData.append('image', editedProduct.image);
       }
 
-      // Append other fields
       Object.keys(editedProduct).forEach(key => {
         if (key !== 'image' && editedProduct[key] !== null && editedProduct[key] !== '') {
-          formData.append(key, editedProduct[key]);
+          if (key === 'category') {
+            formData.append(key, Number(editedProduct[key])); // Send category id as number
+          } else {
+            formData.append(key, editedProduct[key]);
+          }
         }
       });
 
       const response = await fetchWithAuth(`Store/product/${editedProduct.id}/`, {
         method: 'PATCH',
         body: formData,
-        // Remove the Content-Type header to let the browser set it with boundary for FormData
-        headers: {
-          // Don't set 'Content-Type' here - it will be set automatically for FormData
-        }
       });
 
       if (!response.ok) {
@@ -146,13 +144,20 @@ const Products = () => {
 
       const updatedProduct = await response.json();
       
+      const categoryObject = categories.find(cat => cat.id === updatedProduct.category);
+      
+      const finalUpdatedProduct = {
+        ...updatedProduct,
+        category: categoryObject 
+      };
+
       setProducts(prevProducts =>
         prevProducts.map(product => 
-          product.id === editedProduct.id ? updatedProduct : product
+          product.id === editedProduct.id ? finalUpdatedProduct : product
         )
       );
-      
-      setSelectedProduct(updatedProduct);
+        
+      setSelectedProduct(finalUpdatedProduct);
       setIsEditing(false);
       setToast({
         show: true,
@@ -232,7 +237,7 @@ const Products = () => {
                   />
                 </td>
                 <td className="p-3 font-medium">{product.name}</td>
-                <td className="p-3 text-gray-600">{product.category}</td>
+                <td className="p-3 text-gray-600">{product.category.name}</td>
                 <td className="p-3 font-semibold text-[#EA3C3C]">${product.price}</td>
                 <td className="p-3">
                   <span className={`px-2 py-1 rounded-full text-sm ${
@@ -247,7 +252,7 @@ const Products = () => {
         </table>
       </div>
 
-      {/* Updated Details Dialog */}
+      {/* Details Dialog */}
       {selectedProduct && (
         <div className="fixed inset-0 backdrop-blur-[2px] bg-transparent flex items-center justify-center z-50">
           <div 
@@ -271,8 +276,12 @@ const Products = () => {
               <div>
                 <div className="relative">
                   <img 
-                    src={isEditing ? (editedProduct.image instanceof File ? URL.createObjectURL(editedProduct.image) : editedProduct.image) : selectedProduct.image}
-                    alt={isEditing ? editedProduct.name : selectedProduct.name}
+                    src={isEditing && editedProduct ? 
+                      (editedProduct.image instanceof File ? 
+                        URL.createObjectURL(editedProduct.image) : 
+                        editedProduct.image) : 
+                      selectedProduct.image}
+                    alt={isEditing && editedProduct ? editedProduct.name : selectedProduct.name}
                     className="w-full h-48 object-cover rounded-lg"
                     onError={(e) => {
                       e.target.src = '/default-product.jpg';
@@ -300,137 +309,116 @@ const Products = () => {
                 </div>
               </div>
 
-              {/* Right Column - Product Details */}
-              <div>
-                {isEditing ? (
-                  <div>
+              {/* Right Column - Details */}
+              <div className="space-y-4">
+                {isEditing && editedProduct ? (
+                  <>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Name</label>
                       <input
                         type="text"
                         name="name"
-                        value={editedProduct.name}
+                        value={editedProduct.name || ''}
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C] transition-all duration-200"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C]"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Category</label>
                       <select
                         name="category"
-                        value={editedProduct.category}
+                        value={editedProduct.category || ''}
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C] transition-all duration-200"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C]"
                       >
-                        {categories.map(category => (
-                          <option 
-                            key={category.id} 
-                            value={category.id}
-                            selected={category.id === editedProduct.category}
-                          >
-                            {category.name}
+                        {categories.map(cat => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
                           </option>
                         ))}
                       </select>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Price</label>
-                      <div className="relative">
-                        <span className="absolute left-2 top-[11px] text-gray-500">$</span>
-                        <input
-                          type="number"
-                          name="price"
-                          value={editedProduct.price}
-                          onChange={handleChange}
-                          className="w-full p-2 pl-6 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C] transition-all duration-200"
-                        />
-                      </div>
+                      <input
+                        type="number"
+                        name="price"
+                        value={editedProduct.price || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C]"
+                      />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Stock</label>
                       <input
                         type="number"
                         name="stock"
-                        value={editedProduct.stock}
+                        value={editedProduct.stock || ''}
                         onChange={handleChange}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C] transition-all duration-200"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C]"
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700">Description</label>
                       <textarea
                         name="description"
-                        value={editedProduct.description}
+                        value={editedProduct.description || ''}
                         onChange={handleChange}
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C]"
                         rows="3"
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-[#EA3C3C] transition-all duration-200 resize-none"
                       />
                     </div>
-                  </div>
+                  </>
                 ) : (
-                  <div>
-                    <div className="mb-4">
-                      <p className="font-bold mb-2">Product Information:</p>
-                      <div className="bg-gray-50 p-3 rounded-lg">
-                        <p className="mb-2"><strong>Name:</strong> {selectedProduct.name}</p>
-                        <p className="mb-2"><strong>Category:</strong> {
-                          categories.find(cat => cat.id === selectedProduct.category)?.name || selectedProduct.category
-                        }</p>
-                        <p className="mb-2">
-                          <strong>Price:</strong> 
-                          <span className="text-[#EA3C3C] font-medium"> ${selectedProduct.price}</span>
-                        </p>
-                        <p>
-                          <strong>Stock Status:</strong> 
-                          <span className={`ml-1 ${selectedProduct.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                            {selectedProduct.stock > 0 ? `${selectedProduct.stock} units` : 'Out of Stock'}
-                          </span>
-                        </p>
-                      </div>
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Name</label>
+                      <p className="text-gray-900">{selectedProduct.name}</p>
                     </div>
-                    
-                    <div className="mb-4">
-                      <p className="font-bold mb-2">Description:</p>
-                      <div className="bg-gray-50 p-3 rounded-lg">
-                        <p>{selectedProduct.description}</p>
-                      </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Category</label>
+                      <p className="text-gray-900">{selectedProduct.category.name}</p>
                     </div>
-                  </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Price</label>
+                      <p className="text-gray-900">${selectedProduct.price}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Stock</label>
+                      <p className="text-gray-900">{selectedProduct.stock}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">Description</label>
+                      <p className="text-gray-900">{selectedProduct.description}</p>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mt-6">
+            <div className="flex justify-end gap-2 mt-6">
               {isEditing ? (
                 <>
                   <button
-                    onClick={handleSave}
-                    className="w-full bg-[#EA3C3C] text-white px-4 py-2 rounded hover:bg-[#ea3c3cb1]"
-                  >
-                    Save Changes
-                  </button>
-                  <button
                     onClick={handleCancel}
-                    className="w-full bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+                    className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
                   >
                     Cancel
                   </button>
+                  <button
+                    onClick={handleSave}
+                    className="px-4 py-2 bg-[#EA3C3C] text-white rounded hover:bg-[#d62828]"
+                  >
+                    Save Changes
+                  </button>
                 </>
               ) : (
-                <>
-                  <button
-                    onClick={() => handleDelete(selectedProduct.id)}
-                    className="w-full bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => setSelectedProduct(null)}
-                    className="w-full bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
-                  >
-                    Close
-                  </button>
-                </>
+                <button
+                  onClick={() => handleDelete(selectedProduct.id)}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                >
+                  Delete Product
+                </button>
               )}
             </div>
           </div>
