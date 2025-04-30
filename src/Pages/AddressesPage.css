@@ -43,23 +43,29 @@
 
 .form-container {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid #e5e7eb;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
 }
 
 .form-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 20px 24px;
   border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  border-radius: 12px 12px 0 0;
 }
 
 .form-header h3 {
   margin: 0;
-  color: #1f2937;
+  color: var(--main-color);
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .close-btn {
@@ -76,16 +82,16 @@
 }
 
 .address-form {
-  padding: 20px;
+  padding: 24px;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 0px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0px;
   color: #374151;
   font-weight: 500;
 }
@@ -93,7 +99,9 @@
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 8px 12px;
+  height: 50px;
+  align-content: center;
+  padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 14px;
@@ -124,13 +132,15 @@
 
 .form-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
 }
 
 .addresses-list {
   display: grid;
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
   margin-top: 30px;
 }
 
@@ -140,34 +150,12 @@
   border-radius: 8px;
   padding: 20px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .address-card:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transform: translateY(-2px);
-}
-
-.address-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.address-header h3 {
-  color: #1f2937;
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.default-badge {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
 }
 
 .address-details {
@@ -346,6 +334,18 @@
   background-color: #dc2626;
 }
 
+@media (max-width: 992px) {
+  .addresses-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .addresses-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .addresses-page {
     padding: 20px 10px;
@@ -380,5 +380,3 @@
     margin: 20px;
   }
 }
-
-

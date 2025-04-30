@@ -214,11 +214,8 @@ const AddressesPage = () => {
           <div className="addresses-list">
             {addresses.map((address) => (
               <div key={address.id} className="address-card">
-                <div className="address-header">
-                  <h3>{address.country}</h3>
-                </div>
-                
                 <div className="address-details">
+                  <p><i className='bx bx-globe'></i> {address.country}</p>
                   <p><i className='bx bx-map'></i> {address.street}</p>
                   <p><i className='bx bx-buildings'></i> {address.city}</p>
                   <p><i className='bx bx-envelope'></i> {address.postal_code}</p>
