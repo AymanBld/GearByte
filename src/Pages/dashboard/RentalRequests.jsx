@@ -10,6 +10,7 @@ const RentalRequests = () => {
   const [selectedRental, setSelectedRental] = useState(null);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
   const [editedDates, setEditedDates] = useState({ rental_date: '', return_date: '' });
+  const [isDateModified, setIsDateModified] = useState(false);
   const modalRef = useRef(null);
 
   useClickOutside([modalRef], () => {
@@ -28,6 +29,7 @@ const RentalRequests = () => {
         rental_date: formatDateForInput(selectedRental.rental_date),
         return_date: formatDateForInput(selectedRental.return_date)
       });
+      setIsDateModified(false);
     }
   }, [selectedRental]);
 
@@ -73,6 +75,7 @@ const RentalRequests = () => {
       ...prev,
       [field]: value
     }));
+    setIsDateModified(true);
   };
 
   const updateRentalDates = async () => {
@@ -255,7 +258,7 @@ const RentalRequests = () => {
                   <input
                     type="date"
                     value={editedDates.rental_date}
-                    onChange={(e) => setEditedDates({...editedDates, rental_date: e.target.value})}
+                    onChange={(e) => handleDateChange('rental_date', e.target.value)}
                     className="w-full p-2 border rounded-md focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
@@ -264,7 +267,7 @@ const RentalRequests = () => {
                   <input
                     type="date"
                     value={editedDates.return_date}
-                    onChange={(e) => setEditedDates({...editedDates, return_date: e.target.value})}
+                    onChange={(e) => handleDateChange('return_date', e.target.value)}
                     className="w-full p-2 border rounded-md focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
@@ -272,23 +275,26 @@ const RentalRequests = () => {
             </div>
             
             <div className="flex space-x-2 mt-4">
-              <button
-                onClick={updateRentalDates}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg flex-1 hover:bg-blue-700 transition"
-              >
-                Update Dates
-              </button>
+              {isDateModified && (
+                <button
+                  onClick={updateRentalDates}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg flex-1 hover:bg-blue-700 transition"
+                >
+                  Update Dates
+                </button>
+              )}
               {selectedRental.is_active && (
                 <button
                   onClick={() => confirmPCReturn(selectedRental.id)}
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg flex-1 hover:bg-green-700 transition"
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg flex-grow hover:bg-green-700 transition flex items-center justify-center gap-1"
                 >
+                  <i className='bx bx-check-circle'></i>
                   Confirm Return
                 </button>
               )}
               <button
                 onClick={() => setSelectedRental(null)}
-                className="bg-[#EA3C3C] text-white px-4 py-2 rounded-lg flex-1 hover:bg-[#ea3c3cb1] transition"
+                className="bg-gray-500 text-white px-4 py-2 rounded-lg flex-1 hover:bg-gray-600 transition"
               >
                 Close
               </button>
@@ -301,6 +307,11 @@ const RentalRequests = () => {
 };
 
 export default RentalRequests;
+
+
+
+
+
 
 
 
