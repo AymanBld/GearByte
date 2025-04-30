@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { fetchWithAuth} from "../utils/fetchWithAuth";
+import { fetchApi, fetchWithAuth} from "../utils/fetchWithAuth";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./RentDetails.css";
@@ -22,6 +22,8 @@ const RentDetails = () => {
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorToast, setErrorToast] = useState("");
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   const today = new Date().toISOString().split('T')[0];
   
@@ -39,7 +41,7 @@ const RentDetails = () => {
   const fetchPCDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithAuth(`rental/pcs/${id}/`);
+      const response = await fetchApi(`rental/pcs/${id}/`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch PC details');
@@ -204,6 +206,33 @@ const RentDetails = () => {
           </div>
         )}
         
+        {/* Login Dialog */}
+        {showLoginDialog && (
+          <div className="dialog-overlay">
+            <div className="dialog-content">
+              <div className="dialog-header">
+                <i className='bx bx-user-circle'></i>
+                <h3>Login Required</h3>
+              </div>
+              <p>You need to be logged in to rent PCs and complete the rental process.</p>
+              <div className="dialog-actions">
+                <button 
+                  className="cancel-btn"
+                  onClick={() => setShowLoginDialog(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="login-btn"
+                  onClick={() => navigate('/login')}
+                >
+                  Go to Login
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <button onClick={() => navigate(-1)} className="rent-details-back-button">
           &larr; Back
         </button>
@@ -280,7 +309,13 @@ const RentDetails = () => {
                     <button 
                       className={`rent-now-btn ${rentItem.status.toLowerCase() === 'unavailable' ? 'unavailable' : ''}`}
                       disabled={rentItem.status.toLowerCase() === 'unavailable'}
-                      onClick={() => setShowRentForm(true)}
+                      onClick={() => {
+                        if (!isLoggedIn) {
+                          setShowLoginDialog(true);
+                        } else {
+                          setShowRentForm(true);
+                        }
+                      }}
                     >
                       <i className='bx bx-cart-add'></i>
                       {rentItem.status.toLowerCase() === 'unavailable' ? 'Currently Unavailable' : 'Rent Now'}

@@ -11,6 +11,8 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   const product = location.state?.product;
   const imagesArray = product.images || [product.image];
@@ -21,6 +23,12 @@ const ProductDetails = () => {
   }
 
   const handleAddToCart = async () => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowLoginDialog(true);
+      return;
+    }
+    
     try {
       const response = await fetchWithAuth('/Store/cart/add/', {
         method: 'POST',
@@ -62,6 +70,34 @@ const ProductDetails = () => {
           onClose={() => setToast({ ...toast, show: false })}
         />
       )}
+      
+      {/* Login Dialog */}
+      {showLoginDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog-content">
+            <div className="dialog-header">
+              <i className='bx bx-user-circle'></i>
+              <h3>Login Required</h3>
+            </div>
+            <p>You need to be logged in to add items to your cart and make purchases.</p>
+            <div className="dialog-actions">
+              <button 
+                className="cancel-btn"
+                onClick={() => setShowLoginDialog(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="login-btn"
+                onClick={() => navigate('/login')}
+              >
+                Go to Login
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="product-detail-page">
         <button onClick={() => navigate(-1)} className="back-button">
           &larr; Back

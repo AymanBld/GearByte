@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchApi, fetchWithAuth } from "../utils/fetchWithAuth";
 import Toast from "../components/Toast";
 import Footer from "../assets/components/Footer";
@@ -16,12 +16,32 @@ const ProductListing = () => {
     previous: null
   });
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
   const { category } = useParams();
+  const navigate = useNavigate();
+
+  // Add state to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   useEffect(() => {
     fetchProducts();
     console.log("Category:", category);
+    
+    // Check login status
+    setIsLoggedIn(!!localStorage.getItem('token'));
+    
+    // Listen for login/logout events
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [category]);
+  
+  const handleStorageChange = (e) => {
+    if (e.key === 'token') {
+      setIsLoggedIn(!!e.newValue);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
@@ -48,6 +68,12 @@ const ProductListing = () => {
   };
 
   const handleAddToCart = async (product) => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowLoginDialog(true);
+      return;
+    }
+    
     try {
       const response = await fetchWithAuth(`Store/cart/add/`, {
         method: 'POST',
@@ -82,9 +108,7 @@ const ProductListing = () => {
   const fetchPage = async (url) => {
     try {
       setLoading(true);
-      // Ensure we're using the search endpoint for pagination as well
-      const modifiedUrl = url.replace('/Store/product/', '/Store/product/search/');
-      const response = await fetchApi(modifiedUrl);
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Failed to fetch page');
       }
@@ -135,6 +159,34 @@ const ProductListing = () => {
           onClose={() => setToast({ ...toast, show: false })}
         />
       )}
+      
+      {/* Login Dialog */}
+      {showLoginDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog-content">
+            <div className="dialog-header">
+              <i className='bx bx-user-circle'></i>
+              <h3>Login Required</h3>
+            </div>
+            <p>You need to be logged in to add items to your cart and make purchases.</p>
+            <div className="dialog-actions">
+              <button 
+                className="cancel-btn"
+                onClick={() => setShowLoginDialog(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="login-btn"
+                onClick={() => navigate('/login')}
+              >
+                Go to Login
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <section className="product-list" id="products">
         <h2 className="section-title">
           {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -169,7 +221,7 @@ const ProductListing = () => {
                   onClick={() => handleAddToCart(product)}
                   disabled={product.stock === 0}
                 >
-                  {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                  {product.stock === 0 ? 'Out of Stock' : isLoggedIn ? 'Add to Cart' : 'Login to Add'}
                 </button>
               </div>
             ))}

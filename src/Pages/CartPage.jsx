@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
@@ -12,10 +12,16 @@ const CartPage = () => {
   const [error, setError] = useState(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    if (isLoggedIn) {
+      fetchCart();
+    } else {
+      setLoading(false);
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     setLocalCartItems(cartItems);
@@ -124,100 +130,119 @@ const CartPage = () => {
             </button>
           </Link>
         </div>
-        <div className="cart-container">
-          <div className="cart-left">
-            <table className="cart-table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th style={{ width: "140px" }}>Quantity</th>
-                  <th>Subtotal</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {localCartItems.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <div className="product-cell">
-                        <img 
-                          src={item.product.image} 
-                          alt={item.product.name} 
-                          className="cart-product-image"
-                        />
-                        <span>{item.product.name}</span>
-                      </div>
-                    </td>
-                    <td>{item.product.price} DA</td>
-                    <td>
-                      <input
-                        className="qty-input"
-                        type="number"
-                        min="1"
-                        max={item.product.stock}
-                        value={item.quantity}
-                        onChange={(e) =>
-                          handleQuantityChange(item.id, Number(e.target.value))
-                        }
-                      />
-                    </td>
-                    <td>{item.subtotal} DA</td>
-                    <td>
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleRemoveItem(item.id)}
-                      >
-                        <i className="bx bx-trash"></i>
-                      </button>
-                    </td>
+        
+        {!isLoggedIn ? (
+          <div className="not-logged-in-container">
+            <div className="not-logged-in-message">
+              <i className='bx bx-user-circle'></i>
+              <h3>Login Required</h3>
+              <p>You need to be logged in to view your cart and make purchases.</p>
+              <div className="login-actions">
+                <button 
+                  className="login-btn"
+                  onClick={() => navigate('/login')}
+                >
+                  Go to Login
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="cart-container">
+            <div className="cart-left">
+              <table className="cart-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th style={{ width: "140px" }}>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Delete</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="cart-buttons">
-              {localCartItems.length > 0 && (
-                <button 
-                  className="clear-cart-btn"
-                  onClick={() => setShowClearConfirm(true)}
-                >
-                  <i className='bx bx-trash-alt'></i> Clear Cart
-                </button>
-              )}
-              {hasChanges && (
-                <button 
-                  className="update-cart-btn"
-                  onClick={updateCart}
-                >
-                  <i className='bx bx-refresh'></i> Update Cart
-                </button>
-              )}
+                </thead>
+                <tbody>
+                  {localCartItems.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        <div className="product-cell">
+                          <img 
+                            src={item.product.image} 
+                            alt={item.product.name} 
+                            className="cart-product-image"
+                          />
+                          <span>{item.product.name}</span>
+                        </div>
+                      </td>
+                      <td>{item.product.price} DA</td>
+                      <td>
+                        <input
+                          className="qty-input"
+                          type="number"
+                          min="1"
+                          max={item.product.stock}
+                          value={item.quantity}
+                          onChange={(e) =>
+                            handleQuantityChange(item.id, Number(e.target.value))
+                          }
+                        />
+                      </td>
+                      <td>{item.subtotal} DA</td>
+                      <td>
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleRemoveItem(item.id)}
+                        >
+                          <i className="bx bx-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="cart-buttons">
+                {localCartItems.length > 0 && (
+                  <button 
+                    className="clear-cart-btn"
+                    onClick={() => setShowClearConfirm(true)}
+                  >
+                    <i className='bx bx-trash-alt'></i> Clear Cart
+                  </button>
+                )}
+                {hasChanges && (
+                  <button 
+                    className="update-cart-btn"
+                    onClick={updateCart}
+                  >
+                    <i className='bx bx-refresh'></i> Update Cart
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
 
-          <div className="cart-right">
-            <h3 className="summary-title">Cart Total</h3>
-            <div className="cart-summary">
-              <div className="summary-row">
-                <span>Subtotal:</span>
-                <span>{calculateTotal()} DA</span>
+            <div className="cart-right">
+              <h3 className="summary-title">Cart Total</h3>
+              <div className="cart-summary">
+                <div className="summary-row">
+                  <span>Subtotal:</span>
+                  <span>{calculateTotal()} DA</span>
+                </div>
+                <div className="summary-row">
+                  <span>Shipping:</span>
+                  <span>Free</span>
+                </div>
+                <div className="summary-row total">
+                  <span>Total:</span>
+                  <span>{calculateTotal()} DA</span>
+                </div>
               </div>
-              <div className="summary-row">
-                <span>Shipping:</span>
-                <span>Free</span>
-              </div>
-              <div className="summary-row total">
-                <span>Total:</span>
-                <span>{calculateTotal()} DA</span>
-              </div>
+              <Link to="/checkout">
+                <button className="checkout-btn" disabled={localCartItems.length === 0}>
+                  Proceed to Checkout
+                </button>
+              </Link>
             </div>
-            <Link to="/checkout">
-              <button className="checkout-btn" disabled={localCartItems.length === 0}>
-                Proceed to Checkout
-              </button>
-            </Link>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Clear Cart Confirmation Dialog */}
