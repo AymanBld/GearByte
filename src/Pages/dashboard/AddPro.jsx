@@ -87,12 +87,9 @@ const AddProduct = () => {
         formData.append('image', product.image);
       }
 
-      const response = await fetch('http://localhost:8000/Store/product/', {
+      const response = await fetchWithAuth('Store/product/', {
         method: 'POST',
         body: formData,
-        headers: {
-          Authorization: `Token ${localStorage.getItem('token')}`,
-        },
       });
 
       if (!response.ok) {

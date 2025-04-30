@@ -5,6 +5,7 @@ import { Sidebar } from "../../layouts/Sidebar";
 import { Header } from "../../layouts/Header";
 import { cn } from "../../utils/cn";
 import { useEffect, useRef, useState } from "react";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 const Layout = () => {
     const isDesktopDevice = useMediaQuery("(min-width: 768px)");
@@ -27,11 +28,7 @@ const Layout = () => {
                 return;
             }
 
-            fetch('http://localhost:8000/auth/user/', {
-                headers: {
-                    'Authorization': `Token ${token}`
-                }
-            })
+            fetchWithAuth('auth/user/')
             .then(response => {
                 if (!response.ok) throw new Error('Not authorized');
                 return response.json();
