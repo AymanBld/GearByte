@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchWithAuth } from "../utils/fetchWithAuth";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
-import Toast from "../components/Toast";  // Changed from Components to components
+import Toast from "../Components/Toast";  // Changed from Components to components
 import "./ProfilePage.css";
 
 const ProfilePage = () => {
