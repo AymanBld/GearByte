@@ -4,7 +4,6 @@ import { fetchApi } from "../utils/fetchWithAuth";
 import "./RentListing.css";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
-import rentIcon from "../assets/imges/rentIcon.webp";
 
 const RentListing = () => {
   const [rentItems, setRentItems] = useState([]);
