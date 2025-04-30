@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:8000/';
-// const API_URL = 'http://gearbyte.onrender.com/';
+// const API_URL = 'http://localhost:8000/';
+const API_URL = 'https://gearbyte.onrender.com/';
 
 export const fetchWithAuth = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
