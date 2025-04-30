@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
-import Toast from "../../components/Toast";
+import Toast from "../../Components/Toast";
 import { fetchApi, fetchWithAuth} from "../../utils/fetchWithAuth";
 
 const AddProduct = () => {

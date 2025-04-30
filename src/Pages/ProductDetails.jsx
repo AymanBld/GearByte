@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
-import Toast from "../components/Toast";
+import Toast from "../Components/Toast";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./ProductDetails.css";

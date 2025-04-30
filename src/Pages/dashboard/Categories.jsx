@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchWithAuth } from "../../utils/fetchWithAuth";
-import Toast from "../../components/Toast";
+import Toast from "../../Components/Toast";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);

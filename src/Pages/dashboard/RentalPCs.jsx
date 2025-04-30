@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { fetchWithAuth } from "../../utils/fetchWithAuth";
-import Toast from "../../components/Toast";
+import Toast from "../../Components/Toast";
 import { useClickOutside } from "../../Hooks/use-click-outside";
 
 const RentalPCs = () => {
