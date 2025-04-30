@@ -275,6 +275,15 @@ const Nav = () => {
                   </Link>
                   
                   <Link 
+                    to="/rentals" 
+                    className="dropdown-item"
+                    onClick={handleDropdownItemClick}
+                  >
+                    <i className="bx bx-laptop"></i>
+                    <span>My Rentals</span>
+                  </Link>
+                  
+                  <Link 
                     to="/addresses" 
                     className="dropdown-item"
                     onClick={handleDropdownItemClick}

@@ -33,6 +33,7 @@ import CheckoutPage from "./Pages/CheckoutPage";
 import OrderConfirmationPage from "./Pages/OrderConfirmationPage";
 import ProfilePage from "./Pages/ProfilePage";
 import OrdersPage from "./Pages/OrdersPage";
+import MyRentalsPage from "./Pages/MyRentalsPage";
 import AddressesPage from "./Pages/AddressesPage";
 import NotificationsPage from "./Pages/NotificationsPage";
 import PasswordResetConfirmPage from './Pages/PasswordResetConfirmPage';
@@ -119,6 +120,10 @@ const App = () => {
         {
           path: "orders",
           element: <OrdersPage />,
+        },
+        {
+          path: "rentals",
+          element: <MyRentalsPage />,
         },
         {
           path: "addresses",
