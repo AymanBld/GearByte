@@ -121,7 +121,6 @@ const Nav = () => {
   const isProfileActive = location.pathname === "/profile";
   const isOrdersActive = location.pathname === "/orders";
   const isAddressesActive = location.pathname === "/addresses";
-  const isNotificationsActive = location.pathname === "/notifications";
   const isDashboardActive = location.pathname === "/dashboard";
 
   useEffect(() => {
@@ -290,15 +289,6 @@ const Nav = () => {
                   >
                     <i className="bx bx-map"></i>
                     <span>Saved Addresses</span>
-                  </Link>
-                  
-                  <Link 
-                    to="/notifications" 
-                    className="dropdown-item"
-                    onClick={handleDropdownItemClick}
-                  >
-                    <i className="bx bx-bell"></i>
-                    <span>Notifications</span>
                   </Link>
                   
                   <div className="dropdown-divider"></div>

@@ -35,7 +35,6 @@ import ProfilePage from "./Pages/ProfilePage";
 import OrdersPage from "./Pages/OrdersPage";
 import MyRentalsPage from "./Pages/MyRentalsPage";
 import AddressesPage from "./Pages/AddressesPage";
-import NotificationsPage from "./Pages/NotificationsPage";
 import PasswordResetConfirmPage from './Pages/PasswordResetConfirmPage';
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 
@@ -128,10 +127,6 @@ const App = () => {
         {
           path: "addresses",
           element: <AddressesPage />,
-        },
-        {
-          path: "notifications",
-          element: <NotificationsPage />,
         },
         {
           path: "auth/password/reset/confirm/:uid/:token",
