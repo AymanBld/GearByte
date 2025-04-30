@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchWithAuth } from '../../utils/fetchWithAuth';
-import Toast from '../../components/Toast';
+import Toast from '../../Components/Toast';
 
 const AddPC = () => {
   const navigate = useNavigate();
