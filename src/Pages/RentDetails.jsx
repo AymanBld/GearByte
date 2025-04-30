@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { fetchWithAuth} from "../utils/fetchWithAuth";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./RentDetails.css";
@@ -8,51 +8,105 @@ import "./RentDetails.css";
 const RentDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const rentItem = location.state?.rentItem;
-  const imagesArray = rentItem?.images || [rentItem?.image];
-  const [mainImage, setMainImage] = useState(imagesArray[0]);
+  const { id } = useParams();
+  const [rentItem, setRentItem] = useState(null);
+  const [imagesArray, setImagesArray] = useState([]);
+  const [mainImage, setMainImage] = useState("");
   const [showRentForm, setShowRentForm] = useState(false);
   const [formData, setFormData] = useState({
+    rental_date: "",
     return_date: "",
     payment_method: "cash"
   });
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorToast, setErrorToast] = useState("");
 
-  // Calculate minimum return date (tomorrow)
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const minReturnDate = tomorrow.toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0];
+  
+  const calculateMinReturnDate = (rentalDate) => {
+    if (!rentalDate) return "";
+    const minReturn = new Date(rentalDate);
+    minReturn.setDate(minReturn.getDate() + 15);
+    return minReturn.toISOString().split('T')[0];
+  };
 
-  if (!rentItem) {
-    return <h2 className="rent-details-not-found">Item not found.</h2>;
-  }
+  useEffect(() => {
+    fetchPCDetails();
+  }, [id]);
 
-  const paymentMethods = [
-    { id: 'edahabia', label: 'Edahabia', icon: 'bx bx-credit-card' },
-    { id: 'cib', label: 'CIB', icon: 'bx bx-credit-card' },
-    { id: 'cash', label: 'Cash on Delivery', icon: 'bx bx-money' }
-  ];
+  const fetchPCDetails = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchWithAuth(`rental/pcs/${id}/`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch PC details');
+      }
+      
+      const data = await response.json();
+      
+      // Transform the data to match the expected format
+      const transformedData = {
+        id: data.id,
+        name: data.name,
+        brand: data.brand,
+        image: data.image,
+        images: [data.image], 
+        processor: data.cpu,
+        ram: `${data.ram}GB`,
+        storage: `${data.storage}GB`,
+        graphics: data.gpu,
+        display: `${data.display_size}"`,
+        operating_system: data.operating_system,
+        status: data.is_available ? 'Available' : 'Unavailable',
+        price: data.price_per_day,
+        description: data.description,
+        aviability_date: data.aviability_date 
+      };
+      
+      setRentItem(transformedData);
+      setImagesArray([data.image]);
+      setMainImage(data.image);
+      
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching PC details:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      setError("");
+      setErrorToast(""); // Clear any previous error toast
 
-      if (!formData.return_date) {
-        throw new Error("Please select a return date");
+      if (!formData.rental_date || !formData.return_date) {
+        throw new Error("Please select both rental and return dates");
       }
 
-      // Convert the date to the required format
-      const formattedDate = new Date(formData.return_date).toISOString();
+      const rentalDate = new Date(formData.rental_date);
+      const returnDate = new Date(formData.return_date);
+      const daysDifference = Math.ceil((returnDate - rentalDate) / (1000 * 60 * 60 * 24));
 
-      const response = await fetchWithAuth('/rental/rent/', {
+      if (daysDifference < 15) {
+        throw new Error("Rental period must be at least 15 days");
+      }
+
+      // Format dates as YYYY-MM-DD
+      const formatDate = (date) => {
+        return date.toISOString().split('T')[0]; // Returns format: YYYY-MM-DD
+      };
+
+      const response = await fetchWithAuth('rental/', {
         method: 'POST',
         body: JSON.stringify({
           pc: rentItem.id,
-          return_date: formattedDate,
+          rental_date: formatDate(rentalDate),
+          return_date: formatDate(returnDate),
           payment_method: formData.payment_method
         })
       });
@@ -65,12 +119,16 @@ const RentDetails = () => {
       // Close the form and reset it
       setShowRentForm(false);
       setFormData({
+        rental_date: "",
         return_date: "",
         payment_method: "cash"
       });
       
-      // Show success message (you'll need to add this state)
+      // Show success message
       setSuccessMessage("Rental completed successfully!");
+      
+      // Refresh PC details to get updated availability
+      fetchPCDetails();
       
       // Hide success message after 3 seconds
       setTimeout(() => {
@@ -78,11 +136,47 @@ const RentDetails = () => {
       }, 3000);
 
     } catch (err) {
-      setError(err.message);
+      // Show error toast instead of changing the page
+      setErrorToast(err.message);
+      
+      // Hide error toast after 5 seconds
+      setTimeout(() => {
+        setErrorToast("");
+      }, 5000);
     } finally {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading PC details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>Error: {error}</p>
+        <button onClick={() => navigate(-1)} className="back-button">
+          &larr; Go Back
+        </button>
+      </div>
+    );
+  }
+
+  if (!rentItem) {
+    return <h2 className="rent-details-not-found">Item not found.</h2>;
+  }
+
+  const paymentMethods = [
+    { id: 'edahabia', label: 'Edahabia', icon: 'bx bx-credit-card' },
+    { id: 'cib', label: 'CIB', icon: 'bx bx-credit-card' },
+    { id: 'cash', label: 'Cash on Delivery', icon: 'bx bx-money' }
+  ];
 
   const specifications = [
     { icon: 'bx bxs-microchip', label: 'Processor', value: rentItem.processor },
@@ -90,7 +184,7 @@ const RentDetails = () => {
     { icon: 'bx bxs-hdd', label: 'Storage', value: rentItem.storage },
     { icon: 'bx bxs-devices', label: 'Graphics Card', value: rentItem.graphics },
     { icon: 'bx bxs-window-alt', label: 'Display Size', value: rentItem.display },
-    { icon: 'bx bxs-network-chart', label: 'Connectivity', value: rentItem.connectivity }
+    { icon: 'bx bx-laptop', label: 'Operating System', value: rentItem.operating_system }
   ];
 
   return (
@@ -102,6 +196,14 @@ const RentDetails = () => {
             {successMessage}
           </div>
         )}
+        
+        {errorToast && (
+          <div className="error-toast">
+            <i className='bx bx-error-circle'></i>
+            {errorToast}
+          </div>
+        )}
+        
         <button onClick={() => navigate(-1)} className="rent-details-back-button">
           &larr; Back
         </button>
@@ -173,14 +275,33 @@ const RentDetails = () => {
 
             <div className="rent-details-actions">
               {!showRentForm ? (
-                <button 
-                  className={`rent-now-btn ${rentItem.status.toLowerCase() === 'unavailable' ? 'unavailable' : ''}`}
-                  disabled={rentItem.status.toLowerCase() === 'unavailable'}
-                  onClick={() => setShowRentForm(true)}
-                >
-                  <i className='bx bx-cart-add'></i>
-                  {rentItem.status.toLowerCase() === 'unavailable' ? 'Currently Unavailable' : 'Rent Now'}
-                </button>
+                <>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <button 
+                      className={`rent-now-btn ${rentItem.status.toLowerCase() === 'unavailable' ? 'unavailable' : ''}`}
+                      disabled={rentItem.status.toLowerCase() === 'unavailable'}
+                      onClick={() => setShowRentForm(true)}
+                    >
+                      <i className='bx bx-cart-add'></i>
+                      {rentItem.status.toLowerCase() === 'unavailable' ? 'Currently Unavailable' : 'Rent Now'}
+                    </button>
+                    
+                    {rentItem.status.toLowerCase() === 'unavailable' && (
+                      <div className="availability-info">
+                        <i className='bx bx-calendar-check'></i>
+                        <span>
+                          {rentItem.aviability_date ? 
+                            `Available after: ${new Date(rentItem.aviability_date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}` : 
+                            'Currently unavailable. Check back later for availability.'}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </>
               ) : (
                 <div className="rent-form-overlay">
                   <div className="rent-form">
@@ -191,7 +312,7 @@ const RentDetails = () => {
                         onClick={() => {
                           setShowRentForm(false);
                           setError("");
-                          setFormData({ return_date: "", payment_method: "cash" });
+                          setFormData({ rental_date: "", return_date: "", payment_method: "cash" });
                         }}
                       >
                         <i className='bx bx-x'></i>
@@ -200,21 +321,54 @@ const RentDetails = () => {
 
                     <form onSubmit={handleSubmit}>
                       <div className="form-section">
-                        <h4>Return Date</h4>
-                        <div className="date-input-wrapper">
-                          <i className='bx bx-calendar'></i>
-                          <input
-                            type="date"
-                            id="return_date"
-                            min={minReturnDate}
-                            value={formData.return_date}
-                            onChange={(e) => setFormData({
-                              ...formData,
-                              return_date: e.target.value
-                            })}
-                            required
-                          />
+                        <h4>Rental Period</h4>
+                        <div className="date-inputs-container">
+                          <div className="date-input-wrapper">
+                            <label htmlFor="rental_date">Rental Date</label>
+                            <div className="date-field">
+                              <i className='bx bx-calendar-plus'></i>
+                              <input
+                                type="date"
+                                id="rental_date"
+                                min={today}
+                                value={formData.rental_date}
+                                onChange={(e) => setFormData({
+                                  ...formData,
+                                  rental_date: e.target.value,
+                                  return_date: "" // Reset return date when rental date changes
+                                })}
+                                required
+                              />
+                            </div>
+                          </div>
+                          
+                          <div className="date-input-wrapper">
+                            <label htmlFor="return_date">Return Date</label>
+                            <div className="date-field">
+                              <i className='bx bx-calendar-check'></i>
+                              <input
+                                type="date"
+                                id="return_date"
+                                min={calculateMinReturnDate(formData.rental_date)}
+                                value={formData.return_date}
+                                onChange={(e) => setFormData({
+                                  ...formData,
+                                  return_date: e.target.value
+                                })}
+                                disabled={!formData.rental_date}
+                                required
+                              />
+                            </div>
+                          </div>
                         </div>
+                        {formData.rental_date && formData.return_date && (
+                          <div className="rental-duration">
+                            <i className='bx bx-time'></i>
+                            <span>
+                              {Math.ceil((new Date(formData.return_date) - new Date(formData.rental_date)) / (1000 * 60 * 60 * 24))} days
+                            </span>
+                          </div>
+                        )}
                       </div>
 
                       <div className="form-section">
