@@ -1,4 +1,4 @@
-import { Home, Package, PackagePlus, Users, Monitor, MonitorUp, FolderTree } from "lucide-react";
+import { Home, Package, PackagePlus, Users, Monitor, MonitorUp, FolderTree, ClipboardList } from "lucide-react";
 
 export const navbarLinks = [
     {
@@ -18,6 +18,11 @@ export const navbarLinks = [
                 label: "Orders",
                 icon: Users,
                 path: "/dashboard/orders",
+            },
+            {
+                label: "Rental Requests",
+                icon: ClipboardList,
+                path: "/dashboard/rental-requests",
             },
         ],
     },
