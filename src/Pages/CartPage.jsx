@@ -116,7 +116,13 @@ const CartPage = () => {
     return localCartItems.reduce((sum, item) => sum + parseFloat(item.subtotal), 0).toFixed(2);
   };
 
-  if (loading) return <div className="cart-section">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+      </div>
+    );
+  }
   if (error) return <div className="cart-section">Error: {error}</div>;
 
   return (

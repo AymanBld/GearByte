@@ -154,7 +154,6 @@ const RentDetails = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Loading PC details...</p>
       </div>
     );
   }

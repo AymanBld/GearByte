@@ -35,7 +35,6 @@ const OurProducts = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Loading categories...</p>
       </div>
     );
   }

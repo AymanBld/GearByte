@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchApi, fetchWithAuth } from "../utils/fetchWithAuth";
-import Toast from "../Components/Toast";
+import Toast from "../components/Toast";
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./ProductListing.css";
@@ -137,7 +137,6 @@ const ProductListing = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>Loading products...</p>
       </div>
     );
   }
