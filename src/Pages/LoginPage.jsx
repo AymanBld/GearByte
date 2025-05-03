@@ -126,7 +126,7 @@ function LoginPage() {
               <input
                 type="text"
                 id="email"
-                placeholder="Enter your email or username"
+                // placeholder="Enter your email or username"
                 value={formData.email}
                 className={
                   isValid === true
@@ -152,7 +152,7 @@ function LoginPage() {
               <input
                 type="password"
                 id="password"
-                placeholder="Enter your password"
+                // placeholder="Enter your password"
                 value={formData.password}
                 className="" // Add empty class to ensure consistent handling
                 onChange={handleChange}

@@ -61,7 +61,7 @@ function ForgotPasswordPage() {
             <input
               type="email"
               id="email"
-              placeholder="Enter your email address"
+              // placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

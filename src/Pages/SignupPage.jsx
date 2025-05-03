@@ -13,18 +13,21 @@ function SignupPage() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
+    phone: "",
     password1: "",
     password2: "",
   });
 
   const [isValid, setIsValid] = useState({
     email: null,
+    phone: null,
     password: null
   });
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\d{10}$/;  // Basic validation for 10-digit phone number
 
   const validateEmail = (value) => {
     const trimmedValue = value.trim().toLowerCase();
@@ -33,6 +36,16 @@ function SignupPage() {
     setIsValid(prev => ({
       ...prev,
       email: trimmedValue.length > 0 ? isEmailValid : null
+    }));
+  };
+
+  const validatePhone = (value) => {
+    const trimmedValue = value.trim();
+    const isPhoneValid = phoneRegex.test(trimmedValue);
+
+    setIsValid(prev => ({
+      ...prev,
+      phone: trimmedValue.length > 0 ? isPhoneValid : null
     }));
   };
 
@@ -56,6 +69,10 @@ function SignupPage() {
       validateEmail(value);
     }
 
+    if (id === 'phone') {
+      validatePhone(value);
+    }
+
     if (id === 'password1' || id === 'password2') {
       validatePasswords(
         id === 'password1' ? value : formData.password1,
@@ -67,7 +84,9 @@ function SignupPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmedEmail = formData.email.trim().toLowerCase();
+    const trimmedPhone = formData.phone.trim();
     const isEmailValid = emailRegex.test(trimmedEmail);
+    const isPhoneValid = phoneRegex.test(trimmedPhone);
 
     // Validate form data
     if (!formData.username.trim()) {
@@ -78,6 +97,12 @@ function SignupPage() {
 
     if (!isEmailValid) {
       setAlertMessage("Please enter a valid email address");
+      setAlertOpen(true);
+      return;
+    }
+
+    if (!isPhoneValid) {
+      setAlertMessage("Please enter a valid 10-digit phone number");
       setAlertOpen(true);
       return;
     }
@@ -101,10 +126,11 @@ function SignupPage() {
     }
 
     try {
-      // Prepare the data for API - now including both passwords
+      // Prepare the data for API - now including phone
       const signupData = {
         username: formData.username.trim(),
         email: trimmedEmail,
+        phone: trimmedPhone,
         password1: formData.password1,
         password2: formData.password2
       };
@@ -160,7 +186,7 @@ function SignupPage() {
             <input 
               type="text" 
               id="username" 
-              placeholder="Enter your username"
+              // placeholder="Enter your username"
               value={formData.username}
               onChange={handleChange}
             />
@@ -172,7 +198,7 @@ function SignupPage() {
               <input
                 type="email"
                 id="email"
-                placeholder="Enter your email address"
+                // placeholder="Enter your email address"
                 value={formData.email}
                 className={
                   isValid.email === true
@@ -193,11 +219,37 @@ function SignupPage() {
           </div>
 
           <div className="form-group">
+            <label htmlFor="phone">Phone Number</label>
+            <div className="input-container">
+              <input
+                type="tel"
+                id="phone"
+                // placeholder="Enter your phone number"
+                value={formData.phone}
+                className={
+                  isValid.phone === true
+                    ? "input-valid"
+                    : isValid.phone === false
+                    ? "input-error"
+                    : ""
+                }
+                onChange={handleChange}
+              />
+              {formData.phone.trim().length > 0 && !isValid.phone && (
+                <span className="icon icon-error">✖</span>
+              )}
+              {formData.phone.trim().length > 0 && isValid.phone && (
+                <span className="icon icon-valid">&#10003;</span>
+              )}
+            </div>
+          </div>
+
+          <div className="form-group">
             <label htmlFor="password1">Password</label>
             <input
               type="password"
               id="password1"
-              placeholder="Enter your password"
+              // placeholder="Enter your password"
               value={formData.password1}
               onChange={handleChange}
             />
@@ -209,7 +261,7 @@ function SignupPage() {
               <input
                 type="password"
                 id="password2"
-                placeholder="Confirm your password"
+                // placeholder="Confirm your password"
                 value={formData.password2}
                 className={
                   formData.password2 && isValid.password === true
@@ -231,15 +283,6 @@ function SignupPage() {
 
           <button type="submit" className="btn btn-primary">
             Create Account
-          </button>
-          <div className="separator">OR</div>
-          <button 
-            type="button" 
-            className="btn-google"
-            onClick={handleGoogleSignup}
-          >
-            <img src={google} alt="Google" className="google-icon" /> 
-            Sign up with Google
           </button>
         </form>
 
