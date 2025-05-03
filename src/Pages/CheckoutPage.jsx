@@ -71,7 +71,55 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Your submit logic here
+    setIsSubmitting(true);
+    setErrors({});
+    
+    // Validate form
+    const newErrors = {};
+    
+    if (!userInfo.phone) {
+      newErrors.phone = "Phone number is required";
+    }
+    
+    if (!selectedAddressId) {
+      newErrors.address = "Please select a delivery address";
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false);
+      return;
+    }
+    
+    try {
+      const orderData = {
+        address: selectedAddressId,
+        payment_method: selectedPayment,
+        phone: userInfo.phone
+      };
+      
+      const response = await fetchWithAuth('Store/order/checkout/', {
+        method: 'POST',
+        body: JSON.stringify(orderData)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create order');
+      }
+      
+      const data = await response.json();
+      
+      // Redirect to order confirmation page
+      navigate(`/orders/${data.id}`);
+    } catch (error) {
+      console.error('Error creating order:', error);
+      setErrors({
+        submit: error.message || 'Failed to create order. Please try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

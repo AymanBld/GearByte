@@ -17,7 +17,7 @@ const OrdersPage = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithAuth('/Store/order/');
+      const response = await fetchWithAuth('Store/order/');
       if (!response.ok) {
         throw new Error('Failed to fetch orders');
       }
@@ -56,10 +56,8 @@ const OrdersPage = () => {
 
   if (loading) {
     return (
-      <div className="orders-page">
-        <div className="orders-container">
-          <div className="orders-loading">Loading orders...</div>
-        </div>
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
       </div>
     );
   }
