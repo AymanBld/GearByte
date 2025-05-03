@@ -22,9 +22,7 @@ const Reviews = () => {
             <i className="bx bxs-star-half"></i>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-            aliquid, nemo nostrum assumenda veniam omnis?
-          </p>
+          I had a great experience using this site! It's user-friendly, fast, and everything is well-organized. I found exactly what I needed within minutes. Definitely bookmarking it          </p>
           <h4> ikram Arafat</h4>
           <img src={imag1} alt="" />
         </div>
@@ -38,8 +36,7 @@ const Reviews = () => {
             <i className="bx bxs-star-half"></i>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-            aliquid, nemo nostrum assumenda veniam omnis?
+            Amazing service and super fast delivery! I ordered a graphics card and it arrived in perfect condition within two days. Prices are competitive and the site is easy to navigate. Will definitely order again!
           </p>
           <h4> Abdo Mak</h4>
           <img src={imag2} alt="" />
@@ -54,8 +51,9 @@ const Reviews = () => {
             <i className="bx bxs-star-half"></i>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-            aliquid, nemo nostrum assumenda veniam omnis?
+          Good selection of components, but it would be great to have more detailed specs and comparison tools between products. Also, adding more filters would help narrow down choices faster.
+
+
           </p>
           <h4> Wail sadaoui</h4>
           <img src={imag3} alt="" />

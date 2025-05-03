@@ -9,8 +9,7 @@ const Footer = () => {
           <span>Gear</span>Byte
         </h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-          fugiat!
+          gearbyte is a website that allows you to buy and rent pcs.
         </p>
 
         <div className="social">

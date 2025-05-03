@@ -179,7 +179,7 @@ const Nav = () => {
                     color: isOurProductsActive ? activeColor : defaultColor,
                   }}
                 >
-                  OurProducts <i className="bx bx-chevron-down"></i>
+                  OurProducts<i className="bx bx-chevron-down"></i>
                 </Link>
                 <ul className="dropdown-menu">
                   {categories.map(category => (
@@ -200,14 +200,17 @@ const Nav = () => {
                 <a
                   onClick={() => handleScroll("Reviews")}
                   style={{ cursor: "pointer" }}
+                  className='bold'
                 >
-                  Reviews
+                Reviews
                 </a>
               </li>
               <li>
                 <a
                   onClick={() => handleScroll("Contactus")}
                   style={{ cursor: "pointer" }}
+                  className='bold'
+
                 >
                   ContactUs
                 </a>
