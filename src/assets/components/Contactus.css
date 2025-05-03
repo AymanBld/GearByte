@@ -44,13 +44,23 @@ input,textarea {
 .inputs {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 #msg {
   height: 80px;
 }
 .button {
-  margin-top: 20px;
-  width: 80%;
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  width: 100%;
 }
 .contact-pic {
   width: 30%;
@@ -74,4 +84,102 @@ input,textarea {
   input {
     margin: 10px 0 10px 0;
   }
+}
+/* Add these minimal styles for email validation while keeping original UI */
+.email-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.email-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+.email-valid {
+  color: #4caf50;
+}
+
+.email-error {
+  color: #f44336;
+}
+
+.input-valid {
+  border-color: #4caf50;
+}
+
+.input-error {
+  border-color: #f44336;
+}
+/* Add these styles to your existing Contactus.css */
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-wrapper i {
+  font-size: 18px;
+  color: #666;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-valid {
+  border-color: #4caf50 !important;
+  background-color: #f8fff8;
+}
+
+.input-error {
+  border-color: #f44336 !important;
+  background-color: #fff8f8;
+}
+
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.icon-valid {
+  color: #4caf50;
+}
+
+.icon-error {
+  color: #f44336;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #dcb3e3;
+  border-radius: 10px;
+  font-size: 14px;
+  margin: 8px 0;
+  resize: none;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--main-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(234, 60, 60, 0.1);
+}
+
+.button:hover {
+  background-color: var(--button-hover);
 }
