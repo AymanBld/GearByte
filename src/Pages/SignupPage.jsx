@@ -25,6 +25,7 @@ function SignupPage() {
   });
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\d{10}$/;  // Basic validation for 10-digit phone number
@@ -126,6 +127,8 @@ function SignupPage() {
     }
 
     try {
+      setIsLoading(true);
+      
       // Prepare the data for API - now including phone
       const signupData = {
         username: formData.username.trim(),
@@ -146,7 +149,7 @@ function SignupPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Signup failed');
+        throw new Error(errorData.message || errorData.username || 'Signup failed');
       }
 
       const data = await response.json();
@@ -160,6 +163,8 @@ function SignupPage() {
       console.error("Signup error:", error);
       setAlertMessage(error.message || "Failed to create account. Please try again.");
       setAlertOpen(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -281,8 +286,12 @@ function SignupPage() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary">
-            Create Account
+          <button 
+            type="submit" 
+            className="btn btn-primary"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 

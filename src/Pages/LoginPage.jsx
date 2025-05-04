@@ -9,7 +9,7 @@ import signup from "../../Sign_up.png";
 function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",  // This will store either email or username
+    username: "",  // Changed from email to username
     password: "",
   });
   const [alertOpen, setAlertOpen] = useState(false);
@@ -17,15 +17,12 @@ function LoginPage() {
   const [isValid, setIsValid] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   const validateInput = (value) => {
-    const trimmedValue = value.trim().toLowerCase();
-    const isEmailValid = emailRegex.test(trimmedValue);
+    const trimmedValue = value.trim();
     const isUsernameValid = trimmedValue.length >= 3; // Minimum username length
 
     if (trimmedValue.length > 0) {
-      setIsValid(isEmailValid || isUsernameValid);
+      setIsValid(isUsernameValid);
     } else {
       setIsValid(null);
     }
@@ -38,17 +35,17 @@ function LoginPage() {
       [id]: value
     }));
 
-    if (id === 'email') {
+    if (id === 'username') {
       validateInput(value);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const trimmedInput = formData.email.trim();
+    const trimmedInput = formData.username.trim();
 
     if (!trimmedInput) {
-      setAlertMessage("Please enter your email or username");
+      setAlertMessage("Please enter your username");
       setAlertOpen(true);
       return;
     }
@@ -63,8 +60,7 @@ function LoginPage() {
       setIsLoading(true);
       // Prepare the data for API
       const loginData = {
-        email: emailRegex.test(trimmedInput) ? trimmedInput : '',  
-        username: !emailRegex.test(trimmedInput) ? trimmedInput : '',  
+        username: trimmedInput,
         password: formData.password
       };
 
@@ -79,7 +75,11 @@ function LoginPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
+        // Extract error message from non_field_errors array if it exists
+        const errorMessage = errorData.non_field_errors?.[0] || 
+                            errorData.message || 
+                            'Login failed';
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
@@ -121,13 +121,12 @@ function LoginPage() {
 
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email or Username</label>
+            <label htmlFor="username">Username</label>
             <div className="input-container">
               <input
                 type="text"
-                id="email"
-                // placeholder="Enter your email or username"
-                value={formData.email}
+                id="username"
+                value={formData.username}
                 className={
                   isValid === true
                     ? "input-valid"
@@ -137,10 +136,10 @@ function LoginPage() {
                 }
                 onChange={handleChange}
               />
-              {formData.email.trim().length > 0 && !isValid && (
+              {formData.username.trim().length > 0 && !isValid && (
                 <span className="icon icon-error">✖</span>
               )}
-              {formData.email.trim().length > 0 && isValid && (
+              {formData.username.trim().length > 0 && isValid && (
                 <span className="icon icon-valid">&#10003;</span>
               )}
             </div>
@@ -152,7 +151,6 @@ function LoginPage() {
               <input
                 type="password"
                 id="password"
-                // placeholder="Enter your password"
                 value={formData.password}
                 className="" // Add empty class to ensure consistent handling
                 onChange={handleChange}

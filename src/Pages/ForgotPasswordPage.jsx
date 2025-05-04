@@ -28,11 +28,11 @@ function ForgotPasswordPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send reset email');
+        throw new Error('Failed to send reset email');
       }
 
       setAlertType('success');
-      setAlertMessage('Password reset instructions have been sent to your email');
+      setAlertMessage(data.detail || 'Password reset instructions have been sent to your email');
       setEmail('');
     } catch (error) {
       setAlertType('error');
@@ -61,7 +61,6 @@ function ForgotPasswordPage() {
             <input
               type="email"
               id="email"
-              // placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

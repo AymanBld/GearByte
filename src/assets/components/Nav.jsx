@@ -314,7 +314,6 @@ const Nav = () => {
             </Link>
           )}
         </nav>
-        <input type="text" placeholder="Search" className="input" />
       </header>
 
       {/* Add the logout confirmation dialog */}
