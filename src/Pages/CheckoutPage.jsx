@@ -110,8 +110,20 @@ const CheckoutPage = () => {
       
       const data = await response.json();
       
-      // Redirect to order confirmation page
-      navigate(`/orders/${data.id}`);
+      if (selectedPayment === 'cash') {
+        navigate('/orderconfirmation', { 
+          state: { 
+            orderId: data.id,
+            message: data.message || 'Order created successfully'
+          } 
+        });
+      } else {
+        if (data.payment_response && data.payment_response.checkout_url) {
+          window.location.href = data.payment_response.checkout_url;
+        } else {
+          throw new Error('Payment URL not available. Please try again.');
+        }
+      }
     } catch (error) {
       console.error('Error creating order:', error);
       setErrors({

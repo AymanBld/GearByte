@@ -1,43 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Footer from "../assets/components/Footer";
 import Copyright from "../assets/components/Copyright";
 import "./OrderConfirmationPage.css";
 
 const OrderConfirmationPage = () => {
-  // Generate a random order number
-  const orderNumber = "ORD-" + Math.floor(100000 + Math.random() * 900000);
-  const orderDate = new Date().toLocaleDateString();
+  const location = useLocation();
+  const { orderId, message } = location.state || {};
+
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
       <div className="confirmation-page">
         <div className="confirmation-container">
-          <div className="confirmation-icon">
-            <i className="bx bx-check-circle"></i>
-          </div>
-          <h1 className="confirmation-title">Order Confirmed!</h1>
-          
-          <div className="order-details">
-            <div className="order-info">
-              <div className="info-item">
-                <span className="info-label">Order Number</span>
-                <span className="info-value">{orderNumber}</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">Date</span>
-                <span className="info-value">{orderDate}</span>
-              </div>
+          <div className="confirmation-header">
+            <div className="confirmation-icon">
+              <i className='bx bx-check-circle'></i>
             </div>
+            <h1>Order Successful!</h1>
+            <p>{message || "Your order has been placed successfully."}</p>
+            {orderId && <p className="order-id">Order ID: #{orderId}</p>}
+          </div>
 
-            <div className="message-box">
-              <h3>What happens next?</h3>
+          <div className="confirmation-content">
+            <div className="confirmation-message">
               <p>
-                We've received your order and are processing it now. You'll receive an email confirmation shortly.
+                Thank you for your purchase! We've received your order and are getting it ready.
+                A confirmation email has been sent to your registered email address.
               </p>
               <p>
-                Your order will be shipped within 1-3 business days. You'll receive tracking information once your
-                order ships.
+                You can track your order status in the "My Orders" section of your account.
               </p>
             </div>
 
@@ -45,12 +41,15 @@ const OrderConfirmationPage = () => {
               <h3>Need help?</h3>
               <p>
                 If you have any questions about your order, please contact our customer support team at
-                Gearbyte@gmial.com or call us at 0655143411.
+                shop.gearbyte@gmail.com.
               </p>
             </div>
           </div>
 
           <div className="confirmation-actions">
+            <Link to="/orders" className="track-btn">
+              <i className='bx bx-package'></i> Track My Order
+            </Link>
             <Link to="/" className="home-btn">
               <i className="bx bx-home"></i> Return to Home
             </Link>
