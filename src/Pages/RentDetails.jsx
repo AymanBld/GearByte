@@ -100,7 +100,7 @@ const RentDetails = () => {
 
       // Format dates as YYYY-MM-DD
       const formatDate = (date) => {
-        return date.toISOString().split('T')[0]; // Returns format: YYYY-MM-DD
+        return date.toISOString().split('T')[0];
       };
 
       const response = await fetchWithAuth('rental/', {
@@ -118,24 +118,30 @@ const RentDetails = () => {
         throw new Error(data.message || 'Failed to rent PC');
       }
 
-      // Close the form and reset it
-      setShowRentForm(false);
-      setFormData({
-        rental_date: "",
-        return_date: "",
-        payment_method: "cash"
-      });
-      
-      // Show success message
-      setSuccessMessage("Rental completed successfully!");
-      
-      // Refresh PC details to get updated availability
-      fetchPCDetails();
-      
-      // Hide success message after 3 seconds
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
+      const data = await response.json();
+
+      if (formData.payment_method === 'cash') {
+        setShowRentForm(false);
+        setFormData({
+          rental_date: "",
+          return_date: "",
+          payment_method: "cash"
+        });
+        
+        setSuccessMessage(data.message || "Rental completed successfully!");
+
+        fetchPCDetails();
+        
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+      } else {
+        if (data.payment_response && data.payment_response.checkout_url) {
+          window.location.href = data.payment_response.checkout_url;
+        } else {
+          throw new Error('Payment URL not available. Please try again.');
+        }
+      }
 
     } catch (err) {
       // Show error toast instead of changing the page
