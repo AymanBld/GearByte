@@ -9,7 +9,6 @@ const OrderConfirmationPage = () => {
   const { orderId, message } = location.state || {};
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
   }, []);
 

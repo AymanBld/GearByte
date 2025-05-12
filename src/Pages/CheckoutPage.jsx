@@ -74,7 +74,6 @@ const CheckoutPage = () => {
     setIsSubmitting(true);
     setErrors({});
     
-    // Validate form
     const newErrors = {};
     
     if (!userInfo.phone) {
@@ -143,10 +142,8 @@ const CheckoutPage = () => {
           </div>
 
           <div className="checkout-content">
-            {/* Left Column - Form */}
             <div className="checkout-form-column">
               <form onSubmit={handleSubmit}>
-                {/* Phone Section */}
                 <div className="checkout-section">
                   <div className="form-group">
                     <label htmlFor="phone">Phone</label>
@@ -166,7 +163,6 @@ const CheckoutPage = () => {
                   </div>
                 </div>
 
-                {/* Delivery Section */}
                 <div className="checkout-section">
                   <div className="section-header">
                     <h2>Delivery Address</h2>
@@ -194,7 +190,6 @@ const CheckoutPage = () => {
                   </div>
                 </div>
 
-                {/* Payment Section */}
                 <div className="checkout-section">
                   <h2>Payment Method</h2>
                   <div className="payment-methods-grid">
@@ -215,12 +210,10 @@ const CheckoutPage = () => {
               </form>
             </div>
 
-            {/* Right Column - Order Summary */}
             <div className="checkout-summary-column">
               <div className="checkout-section summary">
                 <h2>Order Summary</h2>
                 <div className="summary-content">
-                  {/* Products List */}
                   <div className="products-list">
                     {cartItems.map(item => (
                       <div key={item.id} className="product-summary-row">
@@ -235,7 +228,6 @@ const CheckoutPage = () => {
                     ))}
                   </div>
 
-                  {/* Totals */}
                   <div className="order-summary">
                     <div className="summary-item">
                       <span>Subtotal</span>

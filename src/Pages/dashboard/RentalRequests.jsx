@@ -97,14 +97,12 @@ const RentalRequests = () => {
 
       const updatedRental = await response.json();
       
-      // Update the rentals list with the updated rental
       setRentals(prevRentals =>
         prevRentals.map(rental =>
           rental.id === selectedRental.id ? updatedRental : rental
         )
       );
 
-      // Update the selected rental
       setSelectedRental(updatedRental);
 
       setToast({
@@ -121,7 +119,6 @@ const RentalRequests = () => {
     }
   };
 
-  // Add this function to handle PC return confirmation
   const confirmPCReturn = async (rentalId) => {
     try {
       const response = await fetchWithAuth(`rental/confirm-return/${rentalId}/`, {
@@ -132,14 +129,12 @@ const RentalRequests = () => {
         throw new Error('Failed to confirm PC return');
       }
 
-      // Update the rentals list to reflect the change
       setRentals(prevRentals =>
         prevRentals.map(rental =>
           rental.id === rentalId ? { ...rental, is_active: false } : rental
         )
       );
 
-      // Update the selected rental if it's currently selected
       if (selectedRental && selectedRental.id === rentalId) {
         setSelectedRental(prev => ({ ...prev, is_active: false }));
       }
@@ -229,7 +224,6 @@ const RentalRequests = () => {
               </span>
             </p>
             
-            {/* User information with border */}
             <div className="mb-4 border border-gray-200 rounded-lg p-3 bg-gray-50">
               <h4 className="font-bold text-gray-700 mb-2">User Information</h4>
               <p className="mb-1"><strong>Username:</strong> {selectedRental.user.username}</p>
@@ -237,7 +231,6 @@ const RentalRequests = () => {
               <p className="mb-1"><strong>Phone:</strong> {selectedRental.user.phone || 'N/A'}</p>
             </div>
             
-            {/* PC and payment information */}
             <div className="mb-4 border border-gray-200 rounded-lg p-3 bg-gray-50">
               <h4 className="font-bold text-gray-700 mb-2">Rental Information</h4>
               <p className="mb-1"><strong>PC:</strong> {selectedRental.pc}</p>
@@ -249,7 +242,6 @@ const RentalRequests = () => {
               </p>
             </div>
             
-            {/* Date editing section */}
             <div className="mb-4 border border-gray-200 rounded-lg p-3">
               <h4 className="font-bold text-gray-700 mb-2">Rental Dates</h4>
               <div className="grid grid-cols-2 gap-3">

@@ -110,12 +110,12 @@ const Products = () => {
     if (type === 'file') {
       setEditedProduct(prev => ({
         ...prev,
-        [name]: files[0] // Store the actual File object
+        [name]: files[0]
       }));
     } else if (name === 'category') {
       setEditedProduct(prev => ({
         ...prev,
-        [name]: parseInt(value, 10) // Convert category ID to integer
+        [name]: parseInt(value, 10) 
       }));
     } else {
       setEditedProduct(prev => ({
@@ -136,7 +136,7 @@ const Products = () => {
       Object.keys(editedProduct).forEach(key => {
         if (key !== 'image' && editedProduct[key] !== null && editedProduct[key] !== '') {
           if (key === 'category') {
-            formData.append(key, Number(editedProduct[key])); // Send category id as number
+            formData.append(key, Number(editedProduct[key])); 
           } else {
             formData.append(key, editedProduct[key]);
           }

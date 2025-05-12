@@ -4,12 +4,10 @@ const API_URL = 'https://gearbyte.onrender.com/';
 export const fetchWithAuth = async (endpoint, options = {}) => {
   const token = localStorage.getItem('token');
   
-  // Set default headers
   const defaultHeaders = {
     'Authorization': `Token ${token}`,
   };
 
-  // If sending JSON data, add Content-Type header
   if (options.body && !(options.body instanceof FormData)) {
     defaultHeaders['Content-Type'] = 'application/json';
   }

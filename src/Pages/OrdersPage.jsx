@@ -22,7 +22,6 @@ const OrdersPage = () => {
         throw new Error('Failed to fetch orders');
       }
       const data = await response.json();
-      // Handle both array and paginated response formats
       setOrders(Array.isArray(data) ? data : (data.results || []));
     } catch (error) {
       console.error('Error fetching orders:', error);

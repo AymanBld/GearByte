@@ -82,7 +82,7 @@ const RentalPCs = () => {
     if (type === 'file') {
       setEditedPC(prev => ({
         ...prev,
-        [name]: files[0] // Store the actual File object
+        [name]: files[0]
       }));
     } else if (type === 'checkbox') {
       setEditedPC(prev => ({
@@ -101,12 +101,10 @@ const RentalPCs = () => {
     try {
       const formData = new FormData();
       
-      // Only append image if it's a new file
       if (editedPC.image instanceof File) {
         formData.append('image', editedPC.image);
       }
 
-      // Append other fields
       Object.keys(editedPC).forEach(key => {
         if (key !== 'image' && editedPC[key] !== null && editedPC[key] !== '') {
           const value = typeof editedPC[key] === 'boolean' ? String(editedPC[key]) : editedPC[key];
@@ -117,7 +115,6 @@ const RentalPCs = () => {
       const response = await fetchWithAuth(`rental/pcs/${editedPC.id}/`, {
         method: 'PATCH',
         body: formData,
-        // Don't set Content-Type header - browser will set it automatically for FormData
       });
 
       if (!response.ok) {

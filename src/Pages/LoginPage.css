@@ -59,10 +59,9 @@
   color: #333;
 }
 
-/* Reset base styles for inputs */
 .signup-form input {
   width: 100%;
-  height: 56px !important; /* Force consistent height */
+  height: 56px !important; 
   padding: 0 20px;
   font-size: 1rem;
   border: 2px solid #e0e0e0;
@@ -84,7 +83,7 @@
   position: relative;
   width: 100%;
   display: block;
-  height: 56px !important; /* Force consistent height */
+  height: 56px !important;
 }
 
 .input-valid {
@@ -97,7 +96,6 @@
   background-color: #fff8f8;
 }
 
-/* Override any potential conflicting styles */
 .input-valid,
 .input-error,
 input.input-valid,
@@ -111,7 +109,6 @@ input.input-error {
   max-height: 56px !important;
 }
 
-/* Ensure icons are properly positioned */
 .icon {
   position: absolute;
   right: 20px;
@@ -141,7 +138,7 @@ input.input-error {
   justify-content: space-between;
   margin-top: 32px;
   width: 100%;
-  gap: 20px; /* Add spacing between elements */
+  gap: 20px; 
 }
 
 .btn {
@@ -191,7 +188,7 @@ input.input-error {
 .forgot-password {
   color: #ea3c3c;
   text-decoration: none;
-  font-size: 1rem;  /* Adjusted to match button text size */
+  font-size: 1rem; 
   font-weight: 500;
   padding: 8px 16px;
   transition: color 0.3s ease;
@@ -201,7 +198,6 @@ input.input-error {
   color: #d62828;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .form-actions {
     flex-direction: column;

@@ -20,17 +20,14 @@ const ProductListing = () => {
   const { category } = useParams();
   const navigate = useNavigate();
 
-  // Add state to track login status
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
   useEffect(() => {
     fetchProducts();
     console.log("Category:", category);
     
-    // Check login status
     setIsLoggedIn(!!localStorage.getItem('token'));
     
-    // Listen for login/logout events
     window.addEventListener('storage', handleStorageChange);
     return () => {
       window.removeEventListener('storage', handleStorageChange);
@@ -68,7 +65,6 @@ const ProductListing = () => {
   };
 
   const handleAddToCart = async (product) => {
-    // Check if user is logged in
     if (!isLoggedIn) {
       setShowLoginDialog(true);
       return;

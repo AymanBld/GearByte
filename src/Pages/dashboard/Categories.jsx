@@ -10,7 +10,7 @@ const Categories = () => {
   const [newCategory, setNewCategory] = useState({ 
     name: '', 
     description: '', 
-    icon: null  // Changed to null for file handling
+    icon: null
   });
   const [editingCategory, setEditingCategory] = useState(null);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
@@ -49,7 +49,6 @@ const Categories = () => {
       const response = await fetchWithAuth('Store/category/', {
         method: 'POST',
         body: formData,
-        // Don't set Content-Type header - it will be set automatically for FormData
       });
 
       if (!response.ok) {
@@ -80,7 +79,6 @@ const Categories = () => {
       formData.append('name', editingCategory.name);
       formData.append('description', editingCategory.description);
       
-      // Only append icon if it's a new file
       if (editingCategory.icon instanceof File) {
         formData.append('icon', editingCategory.icon);
       }
@@ -88,7 +86,6 @@ const Categories = () => {
       const response = await fetchWithAuth(`Store/category/${category.id}/`, {
         method: 'PATCH',
         body: formData,
-        // Don't set Content-Type header - it will be set automatically for FormData
       });
 
       if (!response.ok) {

@@ -78,7 +78,7 @@ const CartPage = () => {
         throw new Error('Failed to update some items');
       }
 
-      await fetchCart(); // Refresh cart data
+      await fetchCart(); 
       setHasChanges(false);
     } catch (err) {
       console.error('Failed to update cart:', err);
@@ -105,7 +105,7 @@ const CartPage = () => {
       });
       
       if (!response.ok) throw new Error('Failed to clear cart');
-      await fetchCart(); // Refresh cart data
+      await fetchCart(); 
       setShowClearConfirm(false);
     } catch (err) {
       console.error('Failed to clear cart:', err);

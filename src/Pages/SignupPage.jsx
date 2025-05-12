@@ -28,7 +28,7 @@ function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneRegex = /^\d{10}$/;  // Basic validation for 10-digit phone number
+  const phoneRegex = /^\d{10}$/;  
 
   const validateEmail = (value) => {
     const trimmedValue = value.trim().toLowerCase();
@@ -129,7 +129,6 @@ function SignupPage() {
     try {
       setIsLoading(true);
       
-      // Prepare the data for API - now including phone
       const signupData = {
         username: formData.username.trim(),
         email: trimmedEmail,
@@ -138,7 +137,6 @@ function SignupPage() {
         password2: formData.password2
       };
 
-      // Make API call here
       const response = await fetchApi('auth/registration/', {
         method: 'POST',
         headers: {
@@ -156,7 +154,6 @@ function SignupPage() {
       
       localStorage.setItem('token', data.key);
       
-      // Redirect to login page or dashboard
       navigate('/login');
 
     } catch (error) {
@@ -169,7 +166,6 @@ function SignupPage() {
   };
 
   const handleGoogleSignup = () => {
-    // Implement Google signup logic here
     console.log("Google signup clicked");
   };
 

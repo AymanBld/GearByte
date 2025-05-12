@@ -51,7 +51,6 @@ const PasswordResetConfirmPage = () => {
           message: 'Password successfully reset',
           type: 'success'
         });
-        // Redirect to profile settings after 2 seconds
         setTimeout(() => navigate('/profile'), 2000);
       } else {
         throw new Error('Failed to reset password');

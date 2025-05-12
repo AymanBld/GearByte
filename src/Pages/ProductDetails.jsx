@@ -23,7 +23,6 @@ const ProductDetails = () => {
   }
 
   const handleAddToCart = async () => {
-    // Check if user is logged in
     if (!isLoggedIn) {
       setShowLoginDialog(true);
       return;
@@ -71,7 +70,6 @@ const ProductDetails = () => {
         />
       )}
       
-      {/* Login Dialog */}
       {showLoginDialog && (
         <div className="dialog-overlay">
           <div className="dialog-content">

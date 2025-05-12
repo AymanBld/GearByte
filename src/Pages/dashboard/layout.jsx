@@ -19,7 +19,6 @@ const Layout = () => {
     }, [isDesktopDevice]);
 
     useEffect(() => {
-        // Check if user is admin
         const checkAdminStatus = () => {
             const token = localStorage.getItem('token');
             if (!token) {

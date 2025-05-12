@@ -9,7 +9,7 @@ import signup from "../../Sign_up.png";
 function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",  // Changed from email to username
+    username: "",  
     password: "",
   });
   const [alertOpen, setAlertOpen] = useState(false);
@@ -19,7 +19,7 @@ function LoginPage() {
 
   const validateInput = (value) => {
     const trimmedValue = value.trim();
-    const isUsernameValid = trimmedValue.length >= 3; // Minimum username length
+    const isUsernameValid = trimmedValue.length >= 3; 
 
     if (trimmedValue.length > 0) {
       setIsValid(isUsernameValid);
@@ -58,13 +58,11 @@ function LoginPage() {
 
     try {
       setIsLoading(true);
-      // Prepare the data for API
       const loginData = {
         username: trimmedInput,
         password: formData.password
       };
 
-      // Make API call here
       const response = await fetchApi('auth/login/', {
         method: 'POST',
         headers: {
@@ -75,7 +73,6 @@ function LoginPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        // Extract error message from non_field_errors array if it exists
         const errorMessage = errorData.non_field_errors?.[0] || 
                             errorData.message || 
                             'Login failed';
@@ -84,10 +81,8 @@ function LoginPage() {
 
       const data = await response.json();
       
-      // Store token and dispatch storage event
       localStorage.setItem('token', data.key);
       
-      // Dispatch a custom event for immediate state update
       window.dispatchEvent(new StorageEvent('storage', {
         key: 'token',
         newValue: data.key,
@@ -95,7 +90,6 @@ function LoginPage() {
         storageArea: localStorage
       }));
       
-      // Redirect to dashboard or home page
       navigate('/');
 
     } catch (error) {
@@ -152,7 +146,7 @@ function LoginPage() {
                 type="password"
                 id="password"
                 value={formData.password}
-                className="" // Add empty class to ensure consistent handling
+                className="" 
                 onChange={handleChange}
               />
             </div>

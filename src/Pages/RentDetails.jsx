@@ -49,7 +49,6 @@ const RentDetails = () => {
       
       const data = await response.json();
       
-      // Transform the data to match the expected format
       const transformedData = {
         id: data.id,
         name: data.name,
@@ -84,7 +83,7 @@ const RentDetails = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      setErrorToast(""); // Clear any previous error toast
+      setErrorToast(""); 
 
       if (!formData.rental_date || !formData.return_date) {
         throw new Error("Please select both rental and return dates");
@@ -98,7 +97,6 @@ const RentDetails = () => {
         throw new Error("Rental period must be at least 15 days");
       }
 
-      // Format dates as YYYY-MM-DD
       const formatDate = (date) => {
         return date.toISOString().split('T')[0];
       };
@@ -144,10 +142,8 @@ const RentDetails = () => {
       }
 
     } catch (err) {
-      // Show error toast instead of changing the page
       setErrorToast(err.message);
       
-      // Hide error toast after 5 seconds
       setTimeout(() => {
         setErrorToast("");
       }, 5000);
@@ -375,7 +371,7 @@ const RentDetails = () => {
                                 onChange={(e) => setFormData({
                                   ...formData,
                                   rental_date: e.target.value,
-                                  return_date: "" // Reset return date when rental date changes
+                                  return_date: "" 
                                 })}
                                 required
                               />

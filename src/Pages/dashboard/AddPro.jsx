@@ -97,19 +97,16 @@ const AddProduct = () => {
         throw new Error(errorData.detail || 'Failed to add product');
       }
 
-      // Show success toast
       setToast({
         show: true,
         message: 'Product added successfully!',
         type: 'success'
       });
 
-      // Reset the form
       resetForm();
 
     } catch (err) {
       console.error("Error adding product:", err);
-      // Show error toast
       setToast({
         show: true,
         message: err.message || 'Failed to add product',
@@ -120,7 +117,6 @@ const AddProduct = () => {
     }
   };
 
-  // Handle sheet file selection
   const handleSheetChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -131,14 +127,12 @@ const AddProduct = () => {
     }
   };
 
-  // Handle multiple image selection
   const handleImagesChange = (e) => {
     const files = e.target.files;
     if (files.length > 0) {
       const newImages = { ...bulkUpload.images };
       
       Array.from(files).forEach(file => {
-        // Use filename without extension as the key
         const fileName = file.name.split('.')[0];
         newImages[fileName] = file;
       });
@@ -150,7 +144,6 @@ const AddProduct = () => {
     }
   };
 
-  // Remove an image from the selection
   const removeImage = (fileName) => {
     const newImages = { ...bulkUpload.images };
     delete newImages[fileName];
@@ -161,7 +154,6 @@ const AddProduct = () => {
     }));
   };
 
-  // Handle bulk upload submission
   const handleBulkUpload = async (e) => {
     e.preventDefault();
     
@@ -180,7 +172,6 @@ const AddProduct = () => {
       const formData = new FormData();
       formData.append('sheet', bulkUpload.sheet);
       
-      // Append each image with its filename as the key
       Object.entries(bulkUpload.images).forEach(([fileName, file]) => {
         formData.append(fileName, file);
       });
@@ -204,7 +195,6 @@ const AddProduct = () => {
         type: 'success'
       });
       
-      // Reset bulk upload form
       setBulkUpload({
         sheet: null,
         images: {},
@@ -370,14 +360,12 @@ const AddProduct = () => {
               )}
             </div>
             
-            {/* Progress indicator */}
             {bulkUpload.isUploading && (
               <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
                 <div className="bg-blue-600 h-2.5 rounded-full animate-pulse w-full"></div>
               </div>
             )}
             
-            {/* Submit Button */}
             <button 
               type="submit" 
               className="w-full py-4 px-6 bg-blue-600 text-white rounded-lg text-xl font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed mt-8 flex items-center justify-center"
